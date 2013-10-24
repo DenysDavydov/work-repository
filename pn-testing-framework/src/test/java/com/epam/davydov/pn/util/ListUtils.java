@@ -2,19 +2,35 @@ package com.epam.davydov.pn.util;
 
 import java.util.Iterator;
 
+import com.epam.davydov.pn.pages.Item;
+
 public class ListUtils {
-	public static <T extends Comparable<? super T>> boolean isSorted(Iterable<T> iterable) {
-		Iterator<T> iter = iterable.iterator();
-		if (!iter.hasNext()) {
+
+	public static boolean isItemsSorted(Iterable<Item> iterable, How by) {
+		Iterator<Item> iterator = iterable.iterator();
+		if (!iterator.hasNext()) {
 			return true;
 		}
-		T t = iter.next();
-		while (iter.hasNext()) {
-			T t2 = iter.next();
-			if (t.compareTo(t2) > 0) {
-				return false;
+		Item i = iterator.next();
+		while (iterator.hasNext()) {
+			Item i2 = iterator.next();
+			switch (by) {
+			case BY_PRICE:
+				if (i.getPrice() > i2.getPrice()) {
+					Logger.errorMessage = String.format("%s preceeds %s", i.getPrice(),
+							i2.getPrice());
+					return false;
+				}
+				break;
+			case BY_NAME:
+				if (i.getName().compareTo(i2.getName()) > 0) {
+					Logger.errorMessage=(String.format("%s preceeds %s", i.getName(),
+							i2.getName()));
+					return false;
+				}
+				break;
 			}
-			t = t2;
+			i = i2;
 		}
 		return true;
 	}

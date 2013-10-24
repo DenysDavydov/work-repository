@@ -1,1 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="pn-testing-task">
+	<test name="fridges-sorting">
+		<classes>
+			<class name="com.epam.davydov.pn.tests.Test_FridgesSorting"></class>
+		</classes>
+	</test>
+</suite>
