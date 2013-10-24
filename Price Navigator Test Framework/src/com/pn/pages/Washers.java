@@ -1,5 +1,14 @@
 package com.pn.pages;
 
-public class Washers extends HomePage {
+import com.pn.utils.PageFactory;
+
+public class Washers extends ItemsListPage {
+
+	@Override
+	public Washers sortByPrice() {
+		sortByPriceButton.click();
+		return PageFactory.getPage(driver, Washers.class);
+	}
+	
 
 }

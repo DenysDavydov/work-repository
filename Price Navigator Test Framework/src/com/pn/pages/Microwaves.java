@@ -1,5 +1,10 @@
 package com.pn.pages;
 
-public class Microwaves extends HomePage {
+import com.pn.utils.PageFactory;
 
+public class Microwaves extends ItemsListPage {
+	public Microwaves sortByPrice(){
+		sortByPriceButton.click();
+		return PageFactory.getPage(driver, Microwaves.class);
+	}
 }
