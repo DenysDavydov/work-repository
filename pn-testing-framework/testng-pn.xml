@@ -1,8 +1,13 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="pn-testing-task">
-	<test name="fridges-sorting">
+	<test name="fridges-sorting" enabled="false">
 		<classes>
-			<class name="com.epam.davydov.pn.tests.Test_FridgesSorting"></class>
+			<class name="com.epam.davydov.pn.tests.Test_FridgesSorting" />
+		</classes>
+	</test>
+	<test name="microwave-comparison">
+		<classes>
+			<class name="com.epam.davydov.pn.tests.Test_MicrowaveComparison" />
 		</classes>
 	</test>
 </suite>
