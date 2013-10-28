@@ -5,12 +5,12 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeSuite;
 
+import com.epam.davydov.pn.helpers.core.Settings;
 import com.epam.davydov.pn.helpers.factory.PageFactory;
 import com.epam.davydov.pn.helpers.factory.WebDriverFactory;
 import com.epam.davydov.pn.pages.HomePage;
 
 public class TestsCommon {
-	private static final String HOME_PAGE_URL = "http://pn.com.ua/";
 	protected WebDriver driver;
 
 	@BeforeSuite
@@ -20,8 +20,9 @@ public class TestsCommon {
 	}
 
 	protected HomePage openHomePage() {
-		Reporter.log("Open home page (" + HOME_PAGE_URL + ")");
-		driver.get(HOME_PAGE_URL);
+		String homePageURL = Settings.getHomePageURL();
+		Reporter.log("Open home page (" + homePageURL + ")");
+		driver.get(homePageURL);
 		return PageFactory.getPage(driver, HomePage.class);
 	}
 }

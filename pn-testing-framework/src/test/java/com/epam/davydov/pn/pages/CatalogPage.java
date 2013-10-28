@@ -40,13 +40,13 @@ public class CatalogPage extends Page {
 	 * @param by
 	 *            describes how to sort items
 	 * */
-	public CatalogPage sort(How by) {
-		switch (by) {
-		case BY_PRICE:
+	public CatalogPage sort(String how) {
+		switch (how) {
+		case How.BY_PRICE:
 			Reporter.log("Click on the sort-by-price button");
 			sortByPriceButton.click();
 			break;
-		case BY_NAME:
+		case How.BY_NAME:
 			Reporter.log("Click on the sort-by-name button");
 			sortByNameButton.click();
 			break;

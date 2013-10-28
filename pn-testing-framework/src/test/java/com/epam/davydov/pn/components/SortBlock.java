@@ -17,12 +17,12 @@ public class SortBlock extends Component {
 	@FindBy(css = BY_PRICE)
 	private WebElement sortByPriceButton;
 
-	public void sort(How how) {
+	public void sort(String how) {
 		switch (how) {
-		case BY_NAME:
+		case How.BY_NAME:
 			sortByNameButton.click();
 			break;
-		case BY_PRICE:
+		case How.BY_PRICE:
 			sortByPriceButton.click();
 			break;
 		}

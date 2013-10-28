@@ -19,4 +19,17 @@ public class CoreHelper {
 		}
 		return true;
 	}
+
+	public static <T> boolean isContentSame(Iterable<T> iterable) {
+		Iterator<T> iterator = iterable.iterator();
+		Object o = iterator.next();
+		while (iterator.hasNext()) {
+			Object o2 = iterator.next();
+			if (!o.equals(o2)) {
+				return false;
+			}
+			o = o2;
+		}
+		return true;
+	}
 }

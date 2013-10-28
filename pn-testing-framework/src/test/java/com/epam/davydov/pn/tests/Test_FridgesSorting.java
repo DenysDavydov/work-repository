@@ -1,35 +1,26 @@
 package com.epam.davydov.pn.tests;
 
-import com.epam.davydov.pn.helpers.core.CoreHelper;
-import com.epam.davydov.pn.helpers.core.How;
-import com.epam.davydov.pn.helpers.entities.Product;
-import com.epam.davydov.pn.helpers.entities.Property;
-import org.testng.annotations.Test;
+import static org.testng.Assert.assertTrue;
 
 import java.util.List;
 
-import static org.testng.Assert.assertTrue;
+import org.testng.annotations.Test;
+
+import com.epam.davydov.pn.helpers.core.CoreHelper;
+import com.epam.davydov.pn.helpers.dp.TestDataProvider;
+import com.epam.davydov.pn.helpers.entities.Product;
+import com.epam.davydov.pn.helpers.entities.Property;
 
 public class Test_FridgesSorting extends TestsCommon {
-	
-	@Test()
-	public void test_AscendantSorting_ByPrice() {
-		List<Product> products = getSortedItems(How.BY_PRICE);
-		
+
+	@Test(dataProvider = "parametersProvider", dataProviderClass = TestDataProvider.class)
+	public void test_Sorting_ByPrice(String category, String howToSort) {
+		List<Product> products = 
+				openHomePage()
+				.navigateTo(category)
+				.sort(howToSort)
+				.getProducts();
+
 		assertTrue(CoreHelper.isItemsSortedBy(products, Property.PRICE));
 	}
-
-	@Test(priority = 1)
-	public void test_AscendantSorting_ByName() {
-		List<Product> products = getSortedItems(How.BY_NAME);
-		
-		assertTrue(CoreHelper.isItemsSortedBy(products, Property.NAME));
-	}
-
-	private List<Product> getSortedItems(How how) {
-        return openHomePage()
-                .navigateTo(CoreHelper.NAV_DESTINATION)
-                .sort(how)
-                .getProducts();
-    }
 }

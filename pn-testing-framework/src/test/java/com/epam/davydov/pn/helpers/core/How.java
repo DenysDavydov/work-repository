@@ -1,5 +1,6 @@
 package com.epam.davydov.pn.helpers.core;
 
-public enum How {
-	BY_PRICE, BY_NAME
+public interface How {
+	public static final String BY_PRICE = "цена";
+	public static final String BY_NAME = "название";
 }

@@ -59,4 +59,8 @@ public class Settings {
 	public static int getAjaxFactoryWaitTimeout() {
 		return Integer.parseInt(properties.getProperty("ajax.factory.wait.timeout"));
 	}
+	
+	public static String getHomePageURL(){
+		return properties.getProperty("home.page.url");
+	}
 }
