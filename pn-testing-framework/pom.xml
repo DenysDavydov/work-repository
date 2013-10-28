@@ -64,6 +64,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>3.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
@@ -75,12 +80,7 @@
 			<artifactId>operadriver</artifactId>
 			<version>1.5</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.google.inject</groupId>
-			<artifactId>guice</artifactId>
-			<version>3.0</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
