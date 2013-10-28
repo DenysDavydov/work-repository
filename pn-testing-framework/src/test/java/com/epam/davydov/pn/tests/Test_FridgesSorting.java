@@ -28,7 +28,7 @@ public class Test_FridgesSorting extends TestsCommon {
 
 	private List<Product> getSortedItems(How how) {
         return openHomePage()
-                .navigateTo(CoreHelper.navDestination)
+                .navigateTo(CoreHelper.NAV_DESTINATION)
                 .sort(how)
                 .getProducts();
     }

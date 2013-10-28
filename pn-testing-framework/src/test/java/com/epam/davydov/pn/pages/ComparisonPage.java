@@ -8,25 +8,29 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 public class ComparisonPage extends Page {
-    private static final String WEB_PROPERTY_VALUE_PATTERN = ".//td[%s]";
-    private By webProperty = By.xpath(".//td[1]");
+	private static final String PRODUCT_PROPERTY_VALUE = ".//td[%s]";
+	private By webProperty = By.xpath(".//td[1]");
 
-    @FindBy(xpath = "//tr[*[@colspan]]/following-sibling::tr[not(*[@colspan])]")
-    private List<WebElement> propertyRows;    
+	@FindBy(xpath = "//tr[*[@colspan]]/following-sibling::tr[not(*[@colspan])]")
+	private List<WebElement> propertyRows;
 
-    public Product getComparingProduct(int productNumber) {
-        Product item = new Product();
-        
-        for (WebElement row : propertyRows) {
-            String property = row.findElement(webProperty).getText();
+	public Product getComparingProduct(int productNumber) {
+		Product item = new Product();
 
-            By webPropertyValue = By.xpath(String.format(WEB_PROPERTY_VALUE_PATTERN, productNumber + 1));
-            String propertyValue = row.findElement(webPropertyValue).getText();
+		for (WebElement row : propertyRows) {
+			String property = row.findElement(webProperty).getText();
 
-            if (propertyValue.equals("-"))
-                continue;
-            item.setProperty(property, propertyValue);
-        }
-        return item;
-    }
+			By webPropertyValue = By.xpath(String.format(PRODUCT_PROPERTY_VALUE, productNumber + 1));
+			String propertyValue = row.findElement(webPropertyValue).getText();
+
+			if (propertyValue.equals("-"))
+				continue;
+			item.setProperty(property, propertyValue);
+		}
+		return item;
+	}
+
+	public boolean checkColorsOnDifferentProperties() {
+		return false;
+	}
 }

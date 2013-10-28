@@ -5,7 +5,7 @@ import java.util.Iterator;
 import com.epam.davydov.pn.helpers.entities.Product;
 
 public class CoreHelper {
-	public static String navDestination = "Холодильники";
+	public static final String NAV_DESTINATION = "Микроволновки";
 
 	public static boolean isItemsSortedBy(Iterable<Product> iterable, String key) {
 		Iterator<Product> iterator = iterable.iterator();
