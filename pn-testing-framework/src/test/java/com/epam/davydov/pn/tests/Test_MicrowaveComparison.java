@@ -6,7 +6,7 @@ import static org.testng.Assert.assertTrue;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.epam.davydov.pn.helpers.core.CoreHelper;
+import com.epam.davydov.pn.helpers.dp.TestDataProvider;
 import com.epam.davydov.pn.helpers.entities.Product;
 import com.epam.davydov.pn.helpers.factory.PageFactory;
 import com.epam.davydov.pn.pages.CatalogPage;
@@ -23,8 +23,8 @@ public class Test_MicrowaveComparison extends TestsCommon {
 	Product comparingProduct_1;
 	Product comparingProduct_2;
 
-	@Test
-	public void test_ComparisonPage_ContainsAllChoosenProductsProperties_1() {
+	@Test(dataProvider = "comparingProductsProvider", dataProviderClass = TestDataProvider.class)
+	public void test_ComparingProductContains_AllPropertiesFromRealProduct(String category, int[] productsNumbers) {
 		assertEquals(realProduct_1, comparingProduct_1);
 	}
 
@@ -40,7 +40,7 @@ public class Test_MicrowaveComparison extends TestsCommon {
 
 	@BeforeClass
 	public void beforeClass() {
-		CatalogPage catalog = openHomePage().navigateTo(CoreHelper.NAV_DESTINATION);
+		CatalogPage catalog = openHomePage().navigateTo("");
 
 		catalog.addItemToComparison(itemsToCompare[0]);
 		catalog.addItemToComparison(itemsToCompare[1]);
@@ -48,7 +48,8 @@ public class Test_MicrowaveComparison extends TestsCommon {
 		realProduct_1 = catalog.selectProduct(itemsToCompare[0]).getProduct();
 		driver.navigate().back();
 
-		realProduct_2 = PageFactory.getPage(driver, CatalogPage.class).selectProduct(itemsToCompare[1]).getProduct();
+		realProduct_2 = PageFactory.getPage(driver, CatalogPage.class).selectProduct(itemsToCompare[1])
+				.getProduct();
 		driver.navigate().back();
 
 		comparisonPage = catalog.compareItems();

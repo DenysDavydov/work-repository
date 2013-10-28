@@ -5,14 +5,17 @@ import org.openqa.selenium.WebElement;
 import org.testng.Reporter;
 
 public class CatalogFilter extends CatalogPage {
-	private static final String FILTER = "//div[@class='group' and contains(.,'%s')]//a[contains(., '%s')]";
+	private static final String FILTER = "//div[@class='group' and contains(.,'%s')]//a[contains(.,'%s')]";
 
 	public void toggleFilter(String filterCategory, String filterName) {
 		Reporter.log("Toggle \"" + filterName + "\" filter");
+		
 		String selector = String.format(FILTER, filterCategory, filterName);
 		WebElement filterButton = getElement(By.xpath(selector));
+		
 		String filterButtonCSSClassName = filterButton.getAttribute("class");
-		if (!filterButtonCSSClassName.equals("selected active")) {
+		
+		if (filterButtonCSSClassName.equals("selected active")) {
 			return;
 		}
 		filterButton.click();

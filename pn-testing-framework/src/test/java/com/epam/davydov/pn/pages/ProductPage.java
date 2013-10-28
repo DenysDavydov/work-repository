@@ -15,13 +15,13 @@ public class ProductPage extends Page {
 	private List<WebElement> propertyRows;	
 
     public Product getProduct(){
-        Product item = new Product();
+        Product product = new Product();
         for (WebElement row : propertyRows) {
             String property = row.findElement(webProperty).getText();
             String propertyValue = row.findElement(webPropertyValue).getText();
 
-            item.setProperty(property, propertyValue);
+            product.setProperty(property, propertyValue);
         }
-        return item;
+        return product;
     }
 }

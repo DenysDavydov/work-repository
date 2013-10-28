@@ -1,56 +1,44 @@
 package com.epam.davydov.pn.pages;
 
-import com.epam.davydov.pn.helpers.core.How;
-import com.epam.davydov.pn.helpers.entities.Product;
-import com.epam.davydov.pn.helpers.entities.Property;
-import com.epam.davydov.pn.helpers.factory.PageFactory;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Reporter;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.epam.davydov.pn.helpers.entities.Product;
+import com.epam.davydov.pn.helpers.entities.Property;
+import com.epam.davydov.pn.helpers.factory.PageFactory;
 
 public class CatalogPage extends Page {
 	private static final int CATALOG_DIV_OFFSET = 2;
-	private static final String ITEM_POSITION_PATTERN = ".item:nth-child(%s)";
+	private static final String ITEM_POSITION = ".item:nth-child(%s)";
+	private static final String SORT_BUTTON = "//div[@class='order']//a[contains(.,'%s')]";
 
 	private By webItemPrice = By.cssSelector("strong");
-	protected By webItemName = By.cssSelector(".name");
-
 	private By addToComparisonButton = By.cssSelector(".compare_add_link");
-
 	private By productImage = By.cssSelector(".image");
-
-	@FindBy(css = "[href$='sort=price']")
-	private WebElement sortByPriceButton;
-	@FindBy(css = "[href$='sort=name']")
-	private WebElement sortByNameButton;
+	protected By webItemName = By.cssSelector(".name");
+	
+	@FindBy(css = ".show_compare_head_block")
+	private WebElement compareButton;
 
 	@FindBy(css = ".item")
 	protected List<WebElement> webItems;
 
-	@FindBy(css = ".show_compare_head_block")
-	private WebElement compareButton;
-
 	/**
 	 * Sorts items on the current page of this catalog
 	 * 
-	 * @param by
-	 *            describes how to sort items
+	 * @param how
+	 *            - describes how to sort items
+	 * 
 	 * */
-	public CatalogPage sort(String how) {
-		switch (how) {
-		case How.BY_PRICE:
-			Reporter.log("Click on the sort-by-price button");
-			sortByPriceButton.click();
-			break;
-		case How.BY_NAME:
-			Reporter.log("Click on the sort-by-name button");
-			sortByNameButton.click();
-			break;
-		}
+	public CatalogPage sortBy(String how) {
+		Reporter.log("Click on the \"" + how + "\" sort button");
+		By sortButton = By.xpath(String.format(SORT_BUTTON, how));
+		getElement(sortButton).click();
 		return PageFactory.getPage(driver, this.getClass());
 	}
 
@@ -108,7 +96,7 @@ public class CatalogPage extends Page {
 	}
 
 	private WebElement getItemByNumber(int itemNumber) {
-		By item = By.cssSelector(String.format(ITEM_POSITION_PATTERN, itemNumber + CATALOG_DIV_OFFSET));
+		By item = By.cssSelector(String.format(ITEM_POSITION, itemNumber + CATALOG_DIV_OFFSET));
 		return getElement(item);
 	}
 

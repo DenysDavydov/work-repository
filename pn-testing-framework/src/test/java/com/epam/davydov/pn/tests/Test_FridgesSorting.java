@@ -9,18 +9,17 @@ import org.testng.annotations.Test;
 import com.epam.davydov.pn.helpers.core.CoreHelper;
 import com.epam.davydov.pn.helpers.dp.TestDataProvider;
 import com.epam.davydov.pn.helpers.entities.Product;
-import com.epam.davydov.pn.helpers.entities.Property;
 
 public class Test_FridgesSorting extends TestsCommon {
-
 	@Test(dataProvider = "parametersProvider", dataProviderClass = TestDataProvider.class)
-	public void test_Sorting_ByPrice(String category, String howToSort) {
+	public void test_ProductsSorting(String category, String howToSort) {
 		List<Product> products = 
 				openHomePage()
 				.navigateTo(category)
-				.sort(howToSort)
+				.sortBy(howToSort)
 				.getProducts();
+		String howToCompare = howToSort;
 
-		assertTrue(CoreHelper.isItemsSortedBy(products, Property.PRICE));
+		assertTrue(CoreHelper.isItemsSortedBy(products, howToCompare));
 	}
 }

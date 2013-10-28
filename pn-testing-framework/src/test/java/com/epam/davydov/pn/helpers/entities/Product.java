@@ -56,4 +56,9 @@ public class Product {
     public int hashCode() {
         return properties.hashCode();
     }
+
+	@Override
+	public String toString() {
+		return "Product [properties=" + properties + "]";
+	}
 }

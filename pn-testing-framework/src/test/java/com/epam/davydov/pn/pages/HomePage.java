@@ -6,12 +6,11 @@ import org.testng.Reporter;
 import com.epam.davydov.pn.helpers.factory.PageFactory;
 
 public class HomePage extends Page {
-	private static final String NAVIGATE_TO_LOCATOR_PATTERN = "//a[contains(.,'%s')]";
+	private static final String CATEGORY_BUTTON = "//div[@class='home-page-cloud']//a[contains(.,'%s')]";
 
 	public CatalogPage navigateTo(String catecory) {
-		By categoryButton = By.xpath(String.format(NAVIGATE_TO_LOCATOR_PATTERN, catecory));
-		
-        Reporter.log("Opening \"" + catecory + "\" category");
+		Reporter.log("Navigate to \"" + catecory + "\" category");
+		By categoryButton = By.xpath(String.format(CATEGORY_BUTTON, catecory));		
         getElement(categoryButton).click();
         
 		return PageFactory.getPage(driver, CatalogPage.class);
