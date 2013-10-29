@@ -13,4 +13,8 @@ public abstract class Page {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 	}
+	
+	public String getCurrentURL(){
+		return driver.getCurrentUrl();
+	}
 }

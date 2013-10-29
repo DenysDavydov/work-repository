@@ -16,19 +16,24 @@ public class XLSReader {
 			XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
 			XSSFSheet sheet = workbook.getSheet(sheetName);
 
-			int rowsCount = sheet.getLastRowNum();
-			int cellsCount = sheet.getRow(0).getLastCellNum();
+			int rowCount = sheet.getPhysicalNumberOfRows();
+			int columnCount = sheet.getRow(0).getPhysicalNumberOfCells();
 
-			Object[][] result = new Object[rowsCount][cellsCount];
+			Object[][] result = new Object[rowCount - 1][columnCount];
 
-			for (int i = 1; i <= rowsCount; i++) {
-				for (int j = 0; j < cellsCount; j++) {
+			for (int i = 1; i < rowCount; i++) {
+				for (int j = 0; j < columnCount; j++) {
 					Cell cell = sheet.getRow(i).getCell(j);
-					if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+					switch (cell.getCellType()) {
+					case Cell.CELL_TYPE_BLANK:
+					case Cell.CELL_TYPE_STRING:
 						result[i - 1][j] = cell.getStringCellValue();
-					}
-					if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+						break;
+					case Cell.CELL_TYPE_NUMERIC:
 						result[i - 1][j] = (int) cell.getNumericCellValue();
+						break;
+					default:
+						break;
 					}
 				}
 			}

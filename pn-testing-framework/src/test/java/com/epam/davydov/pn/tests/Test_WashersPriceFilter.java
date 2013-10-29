@@ -11,13 +11,13 @@ import com.epam.davydov.pn.pages.CatalogFilter;
 public class Test_WashersPriceFilter extends TestsCommon {
 	@Test(dataProvider = "parametersProvider", dataProviderClass = TestDataProvider.class)
 	public void test_PriceFilter(String category, String minFilterName, int minFilterValue, 
-			String maxFilterName, int maxFilterValue) {
+			String maxFilterName, int maxFilterValue, int filterLimit) {
 		
 		openHomePage().navigateTo(category);
 		CatalogFilter washersFilter = PageFactory.getPage(driver, CatalogFilter.class);
 		
 		washersFilter.toggleFilter(minFilterName, String.valueOf(minFilterValue));
-		if (maxFilterValue != 0) {
+		if (minFilterValue != filterLimit) {
 			washersFilter.toggleFilter(maxFilterName, String.valueOf(maxFilterValue));
 		}		
 		

@@ -2,6 +2,8 @@ package com.epam.davydov.pn.pages;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -14,6 +16,7 @@ import com.epam.davydov.pn.helpers.factory.PageFactory;
 
 public class CatalogPage extends Page {
 	private static final int CATALOG_DIV_OFFSET = 2;
+	private static final String PAGER = "%s?page=%s";
 	private static final String ITEM_POSITION = ".item:nth-child(%s)";
 	private static final String SORT_BUTTON = "//div[@class='order']//a[contains(.,'%s')]";
 
@@ -21,12 +24,15 @@ public class CatalogPage extends Page {
 	private By productImage = By.cssSelector(".image");
 	protected By webItemPrice = By.cssSelector("strong");
 	protected By webItemName = By.cssSelector(".name");
-	
+
 	@FindBy(css = ".show_compare_head_block")
 	private WebElement compareButton;
 
 	@FindBy(css = ".item")
 	protected List<WebElement> webItems;
+
+	@FindBy(css = ".pager-last.last>a")
+	private WebElement lastPageLink;
 
 	/**
 	 * Sorts items on the current page of this catalog
@@ -109,5 +115,32 @@ public class CatalogPage extends Page {
 		Reporter.log("Click at the compare button, go to comparison page");
 		compareButton.click();
 		return PageFactory.getPage(driver, ComparisonPage.class);
+	}
+
+	public Set<String> getAllCatalogManufacturers() {
+		Set<String> allManufacturers = new TreeSet<>();
+		String currentURL = getCurrentURL();
+		int pagesCount = getPagesCount();
+		for (int i = 1; i < pagesCount; i++) {
+			String pageURL = String.format(PAGER, currentURL, i);
+			driver.get(pageURL);
+			CatalogPage nextPage = PageFactory.getPage(driver, CatalogPage.class);
+			allManufacturers.addAll(nextPage.getCatalogManufacturers());
+		}
+		return allManufacturers;
+	}
+
+	public Set<String> getCatalogManufacturers() {
+		Set<String> manufacturers = new TreeSet<>();
+		for (WebElement item : webItems) {
+			String itemName = item.findElement(webItemName).getText();
+			String manufacturer = itemName.substring(0, itemName.indexOf(" "));
+			manufacturers.add(manufacturer);
+		}
+		return manufacturers;
+	}
+
+	private int getPagesCount() {
+		return Integer.parseInt(lastPageLink.getText());
 	}
 }

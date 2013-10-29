@@ -1,6 +1,7 @@
 package com.epam.davydov.pn.helpers.dp;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import org.testng.annotations.DataProvider;
 
@@ -22,15 +23,20 @@ public class TestDataProvider {
 		String sheetName = method.getName();
 
 		Object[][] inputData = XLSReader.readFile(fileName, sheetName);
+		for (Object[] objects : inputData) {
+			System.out.println(Arrays.toString(objects));
+		}
 
 		int rowCount = inputData.length;
+		int numbersCount = inputData[0].length - 1;		
 
 		Object[][] result = new Object[rowCount][2];
-		int[] numbers = new int[2];
+		int[] numbers;
 
-		for (int i = 0; i < result.length; i++) {
+		for (int i = 0; i < rowCount; i++) {
 			result[i][0] = inputData[i][0];
-			for (int j = 1; j < inputData[i].length; j++) {
+			numbers = new int[numbersCount];
+			for (int j = 1; j <= numbersCount; j++) {
 				numbers[j - 1] = (int) inputData[i][j];
 			}
 			result[i][1] = numbers;
