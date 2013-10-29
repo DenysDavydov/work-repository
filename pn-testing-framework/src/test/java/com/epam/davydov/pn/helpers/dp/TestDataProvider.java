@@ -21,18 +21,17 @@ public class TestDataProvider {
 		String fileName = Settings.getInputDataDir() + method.getDeclaringClass().getSimpleName() + ".xlsx";
 		String sheetName = method.getName();
 
-		String[][] inputData = XLSReader.readFile(fileName, sheetName);
+		Object[][] inputData = XLSReader.readFile(fileName, sheetName);
 
 		int rowCount = inputData.length;
 
 		Object[][] result = new Object[rowCount][2];
+		int[] numbers = new int[2];
 
-		for (int i = 0; i < inputData.length; i++) {
-			String[] strings = inputData[i];
-			result[i][0] = strings[0];
-			int[] numbers = new int[strings.length];
-			for (int j = 1; i < strings.length; i++) {
-				numbers[j - 1] = Integer.parseInt(strings[j]);
+		for (int i = 0; i < result.length; i++) {
+			result[i][0] = inputData[i][0];
+			for (int j = 1; j < inputData[i].length; j++) {
+				numbers[j - 1] = (int) inputData[i][j];
 			}
 			result[i][1] = numbers;
 		}

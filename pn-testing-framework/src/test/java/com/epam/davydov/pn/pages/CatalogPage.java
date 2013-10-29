@@ -17,9 +17,9 @@ public class CatalogPage extends Page {
 	private static final String ITEM_POSITION = ".item:nth-child(%s)";
 	private static final String SORT_BUTTON = "//div[@class='order']//a[contains(.,'%s')]";
 
-	private By webItemPrice = By.cssSelector("strong");
 	private By addToComparisonButton = By.cssSelector(".compare_add_link");
 	private By productImage = By.cssSelector(".image");
+	protected By webItemPrice = By.cssSelector("strong");
 	protected By webItemName = By.cssSelector(".name");
 	
 	@FindBy(css = ".show_compare_head_block")
@@ -91,7 +91,7 @@ public class CatalogPage extends Page {
 	 *            page
 	 */
 	public void addItemToComparison(int itemNumber) {
-		Reporter.log("Adding to comparison product at number" + itemNumber);
+		Reporter.log("Add to comparison product at number " + itemNumber);
 		getItemByNumber(itemNumber).findElement(addToComparisonButton).click();
 	}
 
