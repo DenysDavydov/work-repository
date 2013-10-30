@@ -26,7 +26,7 @@ public class Test_MicrowaveComparison extends Test_Base {
 
 		for (int i = 0; i < productsNumbers.length; i++) {
 			microwaveCatalog.addItemToComparison(productsNumbers[i]);
-			realProducts.add(microwaveCatalog.selectProduct(productsNumbers[i]).getProduct());
+			realProducts.add(microwaveCatalog.navigateToProductPage(productsNumbers[i]).getProduct());
 			microwaveCatalog = navigateBack(CatalogPage.class);
 		}
 

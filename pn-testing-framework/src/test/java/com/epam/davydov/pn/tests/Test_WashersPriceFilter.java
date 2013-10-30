@@ -9,7 +9,7 @@ import com.epam.davydov.pn.helpers.dataproviders.BaseDataProvider;
 import com.epam.davydov.pn.pages.CatalogFilter;
 
 public class Test_WashersPriceFilter extends Test_Base {
-	@Test(dataProvider = "parametersProvider", dataProviderClass = BaseDataProvider.class)
+	@Test(dataProvider = "baseDataProvider", dataProviderClass = BaseDataProvider.class)
 	public void test_PriceFilter(String category, String minFilterName, int minFilterValue, 
 			String maxFilterName, int maxFilterValue, int filterLimit) {
 		
@@ -21,6 +21,6 @@ public class Test_WashersPriceFilter extends Test_Base {
 			washersFilter.toggleFilter(maxFilterName, String.valueOf(maxFilterValue));
 		}		
 		
-		assertTrue(washersFilter.allItemsMatchesPriceFilter(minFilterValue, maxFilterValue));
+		assertTrue(washersFilter.allCatalogItemsMatches(minFilterValue, maxFilterValue));
 	}
 }

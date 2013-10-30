@@ -12,7 +12,7 @@ import com.epam.davydov.pn.pages.CatalogFilter;
 import com.epam.davydov.pn.pages.CatalogPage;
 
 public class Test_BakeryManufacturerFilter extends Test_Base {
-	@Test(dataProvider = "parametersProvider", dataProviderClass = BaseDataProvider.class)
+	@Test(dataProvider = "baseDataProvider", dataProviderClass = BaseDataProvider.class)
 	public void test_BakeryManufacturerFilter(String category, String filterCategory) {
 		Set<String> filterManufacturers;
 		Set<String> catalogManufacturers;

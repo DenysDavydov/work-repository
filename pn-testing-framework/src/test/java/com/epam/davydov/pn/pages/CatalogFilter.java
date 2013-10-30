@@ -30,40 +30,43 @@ public class CatalogFilter extends CatalogPage {
 		filterButton.click();
 	}
 
-	public boolean allItemsMatches(String property) {
-		for (WebElement item : webItems) {
-			if (!item.getText().contains(property)) {
-				String itemName = item.findElement(webItemName).getText();
-				Reporter.log(String.format("Product \"%s\" doesn't contains \"%s\" property", itemName, property));
-				return false;
+	public boolean allCatalogItemsMatches(String property) {
+		boolean result = true;
+		for (WebElement catalogItem : catalogItems) {
+			if (!catalogItem.getText().contains(property)) {
+				String productName = catalogItem.findElement(catalogItemName).getText();
+				Reporter.log(String.format("Product \"%s\" doesn't contains \"%s\" property", productName, property));
+				result = false;
 			}
 		}
-		return true;
+		return result;
 	}
 
-	public boolean allItemsMatchesPriceFilter(int minPrice, int maxPrice) {
-		for (WebElement item : webItems) {
-			String price = item.findElement(webItemPrice).getText();
-			int itemPrice = Integer.parseInt(price.replaceAll("[\\D\\s]", ""));
+	public boolean allCatalogItemsMatches(int minPrice, int maxPrice) {
+		boolean result = true;
+		for (WebElement catalogItem : catalogItems) {
+			String productPriceText = catalogItem.findElement(catalogItemPrice).getText();
+			int productPrice = Integer.parseInt(productPriceText.replaceAll("[\\D\\s]", ""));
 
-			if (itemPrice < minPrice || itemPrice > maxPrice) {
-				String itemName = item.findElement(webItemName).getText();
+			if (productPrice < minPrice || productPrice > maxPrice) {
+				String productName = catalogItem.findElement(catalogItemName).getText();
 				Reporter.log(String.format("Product \"%s\" price (\"%s\") not in range \"%s\" - \"%s\"", 
-						itemName, itemPrice, minPrice, maxPrice));
-				return false;
+						productName, productPrice, minPrice, maxPrice));
+				result = false;
 			}
 		}
-		return true;
+		return result;
 	}
 
 	public Set<String> getFilterNames(String filterCategory) {
 		Reporter.log("Get set of filter names from \"" + filterCategory + "\" category");
 		Set<String> filterNames = new TreeSet<>();
-		if (showAllButton.isDisplayed())
-			showAllButton.click();
-		String selector = String.format(FILTER_LINKS, filterCategory);
-		By filterLinks = By.xpath(selector);
-		List<WebElement> filterLinksList = driver.findElements(filterLinks);
+		
+		showAllButton.click();
+		
+		By filterLinks = By.xpath(String.format(FILTER_LINKS, filterCategory));
+		List<WebElement> filterLinksList = getElements(filterLinks);
+		
 		for (WebElement filterLink : filterLinksList) {
 			if (filterLink.getAttribute("href").startsWith("javascript"))
 				continue;

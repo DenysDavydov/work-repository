@@ -1,7 +1,6 @@
 package com.epam.davydov.pn.pages;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -15,35 +14,33 @@ import com.epam.davydov.pn.config.PageFactory;
 import com.epam.davydov.pn.helpers.dataproviders.Product;
 
 public class CatalogPage extends Page {
-	private static final int CATALOG_DIV_OFFSET = 2;
 	private static final String PAGER = "%s?page=%s";
-	private static final String ITEM_POSITION = ".item:nth-child(%s)";
-	private static final String SORT_BUTTON = "//div[@class='order']//a[contains(.,'%s')]";
+	private static final String ITEM_POSITION = "//div[@class='item'][%s]";
+	private static final String SORT = "//div[@class='order']//a[contains(.,'%s')]";
+	private static final String ADD_ITEM_TO_COMPARISON = "//div[@class='item'][%s]//span[@class='compare_add_link comparep cs']";
+	private static final String SELECT_PRODUCT = "//div[@class='item'][%s]//div[@class='name']/a";
 
-	private By addToComparisonButton = By.cssSelector(".compare_add_link");
-	private By productImage = By.cssSelector(".image");
-	private By webItemMinPrice = By.xpath(".//span/b[1]");
-	private By webItemDescription = By.cssSelector(".description");
-	protected By webItemPrice = By.cssSelector("strong");
-	protected By webItemName = By.cssSelector(".name");	
+	private By catalogItemMinPrice = By.xpath(".//span/b[1]");
+	private By catalogItemDescription = By.cssSelector(".description");
+	protected By catalogItemPrice = By.cssSelector("strong");
+	protected By catalogItemName = By.cssSelector(".name");
 
+	@FindBy(css = ".pager-last.last>a")
+	private WebElement lastPageLink;
 	@FindBy(css = ".show_compare_head_block")
 	private WebElement compareButton;
 	@FindBy(css = ".item")
-	protected List<WebElement> webItems;
-	@FindBy(css = ".pager-last.last>a")
-	private WebElement lastPageLink;	
+	protected List<WebElement> catalogItems;
 
 	/**
 	 * Sorts items on the current page of this catalog
 	 * 
-	 * @param how
-	 *            - describes how to sort items
+	 * @param how - describes how to sort items
 	 * 
 	 * */
 	public CatalogPage sortBy(String how) {
 		Reporter.log("Click on the \"" + how + "\" sort button");
-		By sortButton = By.xpath(String.format(SORT_BUTTON, how));
+		By sortButton = By.xpath(String.format(SORT, how));
 		getElement(sortButton).click();
 		return PageFactory.getPage(driver, this.getClass());
 	}
@@ -56,54 +53,46 @@ public class CatalogPage extends Page {
 	public List<Product> getProducts() {
 		Reporter.log("Get short products from the catalog");
 		List<Product> products = new ArrayList<>();
-		for (WebElement webItem : webItems) {
-			products.add(parseWebItem(webItem));
+		for (WebElement catalogItem : catalogItems) {
+			products.add(parseCatalogItem(catalogItem));
 		}
 		return products;
 	}
 
-	private Product parseWebItem(WebElement webItem) {
+	private Product parseCatalogItem(WebElement catalogItem) {
 		Product product = new Product();
 
-		String itemPrice = webItem.findElement(webItemPrice).getText();
-		String itemName = webItem.findElement(webItemName).getText();
+		String productPrice = catalogItem.findElement(catalogItemPrice).getText();
+		String productName = catalogItem.findElement(catalogItemName).getText();
 
-		product.setProperty(Product.PRICE, itemPrice);
-		product.setProperty(Product.NAME, itemName);
+		product.setProperty(Product.PRICE, productPrice);
+		product.setProperty(Product.NAME, productName);
 		return product;
 	}
 
 	/**
 	 * Navigates to selected product from the catalog
 	 * 
-	 * @param itemNumber
-	 *            it's an item's number in the catalog starting from top of the
-	 *            page
+	 * @param catalogItemNumber it's an item's number in the catalog starting from top of the page
 	 * 
 	 * @return Page of selected product
 	 */
-	public ProductPage selectProduct(int itemNumber) {
-		Reporter.log("Open product page at number " + itemNumber);
-		WebElement selectedItem = getItemByNumber(itemNumber);
-		selectedItem.findElement(productImage).click();
+	public ProductPage navigateToProductPage(int catalogItemNumber) {
+		Reporter.log("Open product page at number " + catalogItemNumber);
+		By productLink = By.xpath(String.format(SELECT_PRODUCT, catalogItemNumber));
+		getElement(productLink).click();
 		return PageFactory.getPage(driver, ProductPage.class);
 	}
 
 	/**
 	 * Adds an item specified by it's number to comparison
 	 * 
-	 * @param itemNumber
-	 *            it's an item's number in the catalog starting from top of the
-	 *            page
+	 * @param itemNumber it's an item's number in the catalog starting from top of the page
 	 */
 	public void addItemToComparison(int itemNumber) {
 		Reporter.log("Add to comparison product at number " + itemNumber);
-		getItemByNumber(itemNumber).findElement(addToComparisonButton).click();
-	}
-
-	private WebElement getItemByNumber(int itemNumber) {
-		By item = By.cssSelector(String.format(ITEM_POSITION, itemNumber + CATALOG_DIV_OFFSET));
-		return getElement(item);
+		By addToComparisonButton = By.xpath(String.format(ADD_ITEM_TO_COMPARISON, itemNumber));
+		getElement(addToComparisonButton).click();
 	}
 
 	/**
@@ -116,7 +105,36 @@ public class CatalogPage extends Page {
 		compareButton.click();
 		return PageFactory.getPage(driver, ComparisonPage.class);
 	}
+	
+	/**
+	 * Gets description of the specified protuct by catalog item number
+	 * 
+	 * */
+	public List<String> getProductDescription(int itemNumber) {
+		WebElement item = getItemByNumber(itemNumber);
+		List<String> shortDescription = new ArrayList<>();
 
+		String description = item.findElement(catalogItemDescription).getText();
+
+		shortDescription.add(item.findElement(catalogItemName).getText().toLowerCase());
+		shortDescription.add(item.findElement(catalogItemMinPrice).getText());
+
+		String[] temp = description.substring(description.indexOf(";") + 1).split(";");
+
+		for (String string : temp) {
+			shortDescription.add(string.trim());
+		}
+		return shortDescription;
+	}
+
+	private WebElement getItemByNumber(int itemNumber) {
+		By item = By.cssSelector(String.format(ITEM_POSITION, itemNumber));
+		return getElement(item);
+	}
+	
+	/**
+	 * 
+	 * */
 	public Set<String> getAllCatalogManufacturers() {
 		Reporter.log("Get set of all catalog manufacturers");
 		Set<String> allManufacturers = new TreeSet<>();
@@ -134,38 +152,15 @@ public class CatalogPage extends Page {
 
 	private Set<String> getCatalogManufacturers() {
 		Set<String> manufacturers = new TreeSet<>();
-		for (WebElement item : webItems) {
-			String itemName = item.findElement(webItemName).getText().toLowerCase();
-			String manufacturer = itemName.substring(0, itemName.indexOf(" "));
+		for (WebElement catalogItem : catalogItems) {
+			String productName = catalogItem.findElement(catalogItemName).getText().toLowerCase();
+			String manufacturer = productName.substring(0, productName.indexOf(" "));
 			manufacturers.add(manufacturer);
 		}
 		return manufacturers;
 	}
-	
-	
+
 	private int getPagesCount() {
 		return Integer.parseInt(lastPageLink.getText());
-	}
-
-	public List<String> getProductDescribtion(int i) {
-		WebElement item = getItemByNumber(i);
-		List<String> shortDescription = new ArrayList<>();
-//		StringBuilder sb = new StringBuilder();
-//		sb.append(item.findElement(webItemName).getText().toLowerCase() + " ");
-//		sb.append(item.findElement(webItemMinPrice).getText());
-		String description = item.findElement(webItemDescription).getText();		 
-//		String shortDescription = description
-//				.substring(description.indexOf(";") + 1)
-//				.replaceAll("[,;]", " ")
-//				.replaceAll("\\s+", " ");
-		
-		shortDescription.add(item.findElement(webItemName).getText().toLowerCase());
-		shortDescription.add(item.findElement(webItemMinPrice).getText());
-		String[] temp = description.substring(description.indexOf(";") + 1).split(";");
-		for (String string : temp) {
-			shortDescription.add(string.trim());
-		}
-//		sb.append(shortDescription);
-		return shortDescription;
 	}
 }

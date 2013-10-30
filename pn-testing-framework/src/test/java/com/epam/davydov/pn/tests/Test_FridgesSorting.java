@@ -11,7 +11,7 @@ import com.epam.davydov.pn.helpers.dataproviders.BaseDataProvider;
 import com.epam.davydov.pn.helpers.dataproviders.Product;
 
 public class Test_FridgesSorting extends Test_Base {
-	@Test(dataProvider = "parametersProvider", dataProviderClass = BaseDataProvider.class)
+	@Test(dataProvider = "baseDataProvider", dataProviderClass = BaseDataProvider.class)
 	public void test_ProductsSorting(String category, String howToSort) {		
 		List<Product> products = 
 				openHomePage()

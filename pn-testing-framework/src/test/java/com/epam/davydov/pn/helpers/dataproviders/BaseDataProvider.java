@@ -7,10 +7,10 @@ import org.testng.annotations.DataProvider;
 import com.epam.davydov.pn.config.Settings;
 import com.epam.davydov.pn.helpers.datareaders.XLSReader;
 
-public class BaseDataProvider {
+public class BaseDataProvider {	
 	@DataProvider()
-	public static Object[][] parametersProvider(Method method) {
-		String fileName = Settings.getInputDataDir() + method.getDeclaringClass().getSimpleName() + ".xlsx";
+	public static Object[][] baseDataProvider(Method method) {
+		String fileName = getDataFileName(method);
 		String sheetName = method.getName();
 
 		return XLSReader.readFile(fileName, sheetName);
@@ -18,7 +18,7 @@ public class BaseDataProvider {
 
 	@DataProvider()
 	public static Object[][] comparingProductsProvider(Method method) {
-		String fileName = Settings.getInputDataDir() + method.getDeclaringClass().getSimpleName() + ".xlsx";
+		String fileName = getDataFileName(method);
 		String sheetName = method.getName();
 
 		Object[][] inputData = XLSReader.readFile(fileName, sheetName);		
@@ -38,5 +38,9 @@ public class BaseDataProvider {
 			result[i][1] = numbers;
 		}
 		return result;
+	}
+	
+	private static String getDataFileName(Method method){
+		return Settings.getInputDataDir() + method.getDeclaringClass().getSimpleName() + ".xlsx";
 	}
 }

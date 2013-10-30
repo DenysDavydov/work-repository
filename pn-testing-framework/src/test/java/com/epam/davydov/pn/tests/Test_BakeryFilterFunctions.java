@@ -10,12 +10,12 @@ import com.epam.davydov.pn.pages.CatalogFilter;
 
 public class Test_BakeryFilterFunctions extends Test_Base {
 
-	@Test(dataProvider = "parametersProvider", dataProviderClass = BaseDataProvider.class)
+	@Test(dataProvider = "baseDataProvider", dataProviderClass = BaseDataProvider.class)
 	public void filterResultMatchesCondition(String category, String filterCategory, String filterName) {
 		openHomePage().navigateTo(category);
 		CatalogFilter bakeryFilter = PageFactory.getPage(driver, CatalogFilter.class);
 		bakeryFilter.toggleFilter(filterCategory, filterName);
 
-		assertTrue(bakeryFilter.allItemsMatches(filterName));
+		assertTrue(bakeryFilter.allCatalogItemsMatches(filterName));
 	}
 }
