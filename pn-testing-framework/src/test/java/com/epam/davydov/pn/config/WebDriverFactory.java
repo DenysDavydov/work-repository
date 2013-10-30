@@ -1,6 +1,5 @@
-package com.epam.davydov.pn.helpers.factory;
+package com.epam.davydov.pn.config;
 
-import com.epam.davydov.pn.helpers.core.Settings;
 import com.opera.core.systems.OperaDriver;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;

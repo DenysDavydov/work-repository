@@ -1,9 +1,12 @@
-package com.epam.davydov.pn.helpers.entities;
+package com.epam.davydov.pn.helpers.dataproviders;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Product {
+	public static final String NAME = "название"; 
+    public static final String PRICE = "цена";
+    
     private Map<String, String> properties;
 
     public Product() {
@@ -19,16 +22,16 @@ public class Product {
     }
 
     public int compareItemByProperty(Product product, String key) {
-        return key.equals(Property.PRICE)
+        return key.equals(PRICE)
                 ? compareProductByPrice(product)
                 : this.getPropertyValue(key).compareTo(product.getPropertyValue(key));
     }
 
     private int compareProductByPrice(Product product) {
         int ourPrice = Integer.parseInt(
-                this.getPropertyValue(Property.PRICE).replaceAll("[\\D\\s]", ""));
+                this.getPropertyValue(PRICE).replaceAll("[\\D\\s]", ""));
         int hisPrice = Integer.parseInt(
-                product.getPropertyValue(Property.PRICE).replaceAll("[\\D\\s]", ""));
+                product.getPropertyValue(PRICE).replaceAll("[\\D\\s]", ""));
         if (ourPrice > hisPrice)
             return 1;
         if (ourPrice < hisPrice)

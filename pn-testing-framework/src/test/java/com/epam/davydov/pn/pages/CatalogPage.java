@@ -1,6 +1,7 @@
 package com.epam.davydov.pn.pages;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -10,9 +11,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Reporter;
 
-import com.epam.davydov.pn.helpers.entities.Product;
-import com.epam.davydov.pn.helpers.entities.Property;
-import com.epam.davydov.pn.helpers.factory.PageFactory;
+import com.epam.davydov.pn.config.PageFactory;
+import com.epam.davydov.pn.helpers.dataproviders.Product;
 
 public class CatalogPage extends Page {
 	private static final int CATALOG_DIV_OFFSET = 2;
@@ -22,17 +22,17 @@ public class CatalogPage extends Page {
 
 	private By addToComparisonButton = By.cssSelector(".compare_add_link");
 	private By productImage = By.cssSelector(".image");
+	private By webItemMinPrice = By.xpath(".//span/b[1]");
+	private By webItemDescription = By.cssSelector(".description");
 	protected By webItemPrice = By.cssSelector("strong");
-	protected By webItemName = By.cssSelector(".name");
+	protected By webItemName = By.cssSelector(".name");	
 
 	@FindBy(css = ".show_compare_head_block")
 	private WebElement compareButton;
-
 	@FindBy(css = ".item")
 	protected List<WebElement> webItems;
-
 	@FindBy(css = ".pager-last.last>a")
-	private WebElement lastPageLink;
+	private WebElement lastPageLink;	
 
 	/**
 	 * Sorts items on the current page of this catalog
@@ -68,8 +68,8 @@ public class CatalogPage extends Page {
 		String itemPrice = webItem.findElement(webItemPrice).getText();
 		String itemName = webItem.findElement(webItemName).getText();
 
-		product.setProperty(Property.PRICE, itemPrice);
-		product.setProperty(Property.NAME, itemName);
+		product.setProperty(Product.PRICE, itemPrice);
+		product.setProperty(Product.NAME, itemName);
 		return product;
 	}
 
@@ -118,7 +118,9 @@ public class CatalogPage extends Page {
 	}
 
 	public Set<String> getAllCatalogManufacturers() {
+		Reporter.log("Get set of all catalog manufacturers");
 		Set<String> allManufacturers = new TreeSet<>();
+		allManufacturers.addAll(getCatalogManufacturers());
 		String currentURL = getCurrentURL();
 		int pagesCount = getPagesCount();
 		for (int i = 1; i < pagesCount; i++) {
@@ -130,17 +132,40 @@ public class CatalogPage extends Page {
 		return allManufacturers;
 	}
 
-	public Set<String> getCatalogManufacturers() {
+	private Set<String> getCatalogManufacturers() {
 		Set<String> manufacturers = new TreeSet<>();
 		for (WebElement item : webItems) {
-			String itemName = item.findElement(webItemName).getText();
+			String itemName = item.findElement(webItemName).getText().toLowerCase();
 			String manufacturer = itemName.substring(0, itemName.indexOf(" "));
 			manufacturers.add(manufacturer);
 		}
 		return manufacturers;
 	}
-
+	
+	
 	private int getPagesCount() {
 		return Integer.parseInt(lastPageLink.getText());
+	}
+
+	public List<String> getProductDescribtion(int i) {
+		WebElement item = getItemByNumber(i);
+		List<String> shortDescription = new ArrayList<>();
+//		StringBuilder sb = new StringBuilder();
+//		sb.append(item.findElement(webItemName).getText().toLowerCase() + " ");
+//		sb.append(item.findElement(webItemMinPrice).getText());
+		String description = item.findElement(webItemDescription).getText();		 
+//		String shortDescription = description
+//				.substring(description.indexOf(";") + 1)
+//				.replaceAll("[,;]", " ")
+//				.replaceAll("\\s+", " ");
+		
+		shortDescription.add(item.findElement(webItemName).getText().toLowerCase());
+		shortDescription.add(item.findElement(webItemMinPrice).getText());
+		String[] temp = description.substring(description.indexOf(";") + 1).split(";");
+		for (String string : temp) {
+			shortDescription.add(string.trim());
+		}
+//		sb.append(shortDescription);
+		return shortDescription;
 	}
 }

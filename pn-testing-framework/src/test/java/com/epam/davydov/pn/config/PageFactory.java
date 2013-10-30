@@ -1,6 +1,6 @@
-package com.epam.davydov.pn.helpers.factory;
+package com.epam.davydov.pn.config;
 
-import com.epam.davydov.pn.helpers.core.Settings;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 

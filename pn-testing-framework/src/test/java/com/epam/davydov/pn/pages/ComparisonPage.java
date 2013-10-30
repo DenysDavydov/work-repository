@@ -1,7 +1,8 @@
 package com.epam.davydov.pn.pages;
 
-import com.epam.davydov.pn.helpers.core.CoreHelper;
-import com.epam.davydov.pn.helpers.entities.Product;
+import com.epam.davydov.pn.helpers.core.BaseHelper;
+import com.epam.davydov.pn.helpers.dataproviders.Product;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,11 +22,10 @@ public class ComparisonPage extends Page {
 
 	public Product getComparingProduct(int productNumber) {
 		Product product = new Product();
-
 		for (WebElement row : propertyRows) {
 			String property = row.findElement(webProperty).getText();
 
-			By webPropertyValue = By.xpath(String.format(PRODUCT_PROPERTY_VALUE, productNumber + 1));
+			By webPropertyValue = By.xpath(String.format(PRODUCT_PROPERTY_VALUE, productNumber));
 			String propertyValue = row.findElement(webPropertyValue).getText();
 
 			if (propertyValue.equals("-"))
@@ -39,7 +39,7 @@ public class ComparisonPage extends Page {
 		for (WebElement row : propertyRows) {
 			List<String> rowContent = getRowContent(row);
 			// checks if content of the row is not same
-			if (!CoreHelper.isContentSame(rowContent)) {
+			if (!BaseHelper.isContentSame(rowContent)) {
 				String rowCSSClassName = row.getAttribute("class");
 				// checks if different content of the row is highlighted
 				if (!rowCSSClassName.equals("different")) {

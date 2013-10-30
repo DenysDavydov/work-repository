@@ -5,13 +5,13 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeSuite;
 
-import com.epam.davydov.pn.helpers.core.Settings;
-import com.epam.davydov.pn.helpers.factory.PageFactory;
-import com.epam.davydov.pn.helpers.factory.WebDriverFactory;
+import com.epam.davydov.pn.config.PageFactory;
+import com.epam.davydov.pn.config.Settings;
+import com.epam.davydov.pn.config.WebDriverFactory;
 import com.epam.davydov.pn.pages.HomePage;
 import com.epam.davydov.pn.pages.Page;
 
-public class TestsCommon {
+public class Test_Base {
 	protected WebDriver driver;
 
 	@BeforeSuite

@@ -9,18 +9,18 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.epam.davydov.pn.helpers.dp.TestDataProvider;
-import com.epam.davydov.pn.helpers.entities.Product;
+import com.epam.davydov.pn.helpers.dataproviders.BaseDataProvider;
+import com.epam.davydov.pn.helpers.dataproviders.Product;
 import com.epam.davydov.pn.pages.CatalogPage;
 import com.epam.davydov.pn.pages.ComparisonPage;
 
-public class Test_MicrowaveComparison extends TestsCommon {
+public class Test_MicrowaveComparison extends Test_Base {
 	ComparisonPage comparisonPage;
 
 	List<Product> realProducts;
 	List<Product> comparingProducts;
 
-	@Test(dataProvider = "comparingProductsProvider", dataProviderClass = TestDataProvider.class)
+	@Test(dataProvider = "comparingProductsProvider", dataProviderClass = BaseDataProvider.class)
 	public void test_ProductsComparison(String category, int[] productsNumbers) {
 		CatalogPage microwaveCatalog = openHomePage().navigateTo(category);
 
@@ -33,7 +33,7 @@ public class Test_MicrowaveComparison extends TestsCommon {
 		comparisonPage = microwaveCatalog.compareItems();
 
 		for (int i = 0; i < productsNumbers.length; i++) {
-			comparingProducts.add(comparisonPage.getComparingProduct(productsNumbers[i]));
+			comparingProducts.add(comparisonPage.getComparingProduct(i + 2));
 		}
 
 		assertEquals(realProducts, comparingProducts);

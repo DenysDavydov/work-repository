@@ -1,4 +1,4 @@
-package com.epam.davydov.pn.helpers.core;
+package com.epam.davydov.pn.config;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

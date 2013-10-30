@@ -6,13 +6,13 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.epam.davydov.pn.helpers.core.CoreHelper;
-import com.epam.davydov.pn.helpers.dp.TestDataProvider;
-import com.epam.davydov.pn.helpers.entities.Product;
+import com.epam.davydov.pn.helpers.core.BaseHelper;
+import com.epam.davydov.pn.helpers.dataproviders.BaseDataProvider;
+import com.epam.davydov.pn.helpers.dataproviders.Product;
 
-public class Test_FridgesSorting extends TestsCommon {
-	@Test(dataProvider = "parametersProvider", dataProviderClass = TestDataProvider.class)
-	public void test_ProductsSorting(String category, String howToSort) {
+public class Test_FridgesSorting extends Test_Base {
+	@Test(dataProvider = "parametersProvider", dataProviderClass = BaseDataProvider.class)
+	public void test_ProductsSorting(String category, String howToSort) {		
 		List<Product> products = 
 				openHomePage()
 				.navigateTo(category)
@@ -20,6 +20,6 @@ public class Test_FridgesSorting extends TestsCommon {
 				.getProducts();
 		String howToCompare = howToSort;
 
-		assertTrue(CoreHelper.isItemsSortedBy(products, howToCompare));
+		assertTrue(BaseHelper.isProductsSortedBy(products, howToCompare));
 	}
 }

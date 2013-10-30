@@ -4,11 +4,11 @@ import java.util.Iterator;
 
 import org.testng.Reporter;
 
-import com.epam.davydov.pn.helpers.entities.Product;
+import com.epam.davydov.pn.helpers.dataproviders.Product;
 
-public class CoreHelper {
+public class BaseHelper {
 
-	public static boolean isItemsSortedBy(Iterable<Product> iterable, String key) {
+	public static boolean isProductsSortedBy(Iterable<Product> iterable, String key) {
 		Iterator<Product> iterator = iterable.iterator();
 		Product p = iterator.next();
 		while (iterator.hasNext()) {

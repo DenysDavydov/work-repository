@@ -11,9 +11,9 @@ import org.testng.Reporter;
 
 public class CatalogFilter extends CatalogPage {
 	private static final String FILTER = "//div[@class='group' and contains(.,'%s')]//a[contains(.,'%s')]";
-	private static final String FILTER_LINKS = "//div[@class='group' and contains(.,'%s')]//a[not(@rel='nofollow')]";
-	
-	@FindBy(css=".show_common_producer")
+	private static final String FILTER_LINKS = "//div[@class='group' and contains(.,'%s')]//a";
+
+	@FindBy(css = ".show_common_producer")
 	private WebElement showAllButton;
 
 	public void toggleFilter(String filterCategory, String filterName) {
@@ -48,8 +48,8 @@ public class CatalogFilter extends CatalogPage {
 
 			if (itemPrice < minPrice || itemPrice > maxPrice) {
 				String itemName = item.findElement(webItemName).getText();
-				Reporter.log(String.format("Product \"%s\" price (\"%s\") not in range \"%s\" - \"%s\"", itemName,
-						itemPrice, minPrice, maxPrice));
+				Reporter.log(String.format("Product \"%s\" price (\"%s\") not in range \"%s\" - \"%s\"", 
+						itemName, itemPrice, minPrice, maxPrice));
 				return false;
 			}
 		}
@@ -57,15 +57,17 @@ public class CatalogFilter extends CatalogPage {
 	}
 
 	public Set<String> getFilterNames(String filterCategory) {
+		Reporter.log("Get set of filter names from \"" + filterCategory + "\" category");
 		Set<String> filterNames = new TreeSet<>();
-		if (showAllButton.isDisplayed()) {
+		if (showAllButton.isDisplayed())
 			showAllButton.click();
-		}
 		String selector = String.format(FILTER_LINKS, filterCategory);
 		By filterLinks = By.xpath(selector);
 		List<WebElement> filterLinksList = driver.findElements(filterLinks);
 		for (WebElement filterLink : filterLinksList) {
-			filterNames.add(filterLink.getText());
+			if (filterLink.getAttribute("href").startsWith("javascript"))
+				continue;
+			filterNames.add(filterLink.getText().toLowerCase());
 		}
 		return filterNames;
 	}

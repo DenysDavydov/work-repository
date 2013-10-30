@@ -1,14 +1,13 @@
-package com.epam.davydov.pn.helpers.dp;
+package com.epam.davydov.pn.helpers.dataproviders;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 import org.testng.annotations.DataProvider;
 
-import com.epam.davydov.pn.helpers.core.Settings;
+import com.epam.davydov.pn.config.Settings;
 import com.epam.davydov.pn.helpers.datareaders.XLSReader;
 
-public class TestDataProvider {
+public class BaseDataProvider {
 	@DataProvider()
 	public static Object[][] parametersProvider(Method method) {
 		String fileName = Settings.getInputDataDir() + method.getDeclaringClass().getSimpleName() + ".xlsx";
@@ -22,10 +21,7 @@ public class TestDataProvider {
 		String fileName = Settings.getInputDataDir() + method.getDeclaringClass().getSimpleName() + ".xlsx";
 		String sheetName = method.getName();
 
-		Object[][] inputData = XLSReader.readFile(fileName, sheetName);
-		for (Object[] objects : inputData) {
-			System.out.println(Arrays.toString(objects));
-		}
+		Object[][] inputData = XLSReader.readFile(fileName, sheetName);		
 
 		int rowCount = inputData.length;
 		int numbersCount = inputData[0].length - 1;		
