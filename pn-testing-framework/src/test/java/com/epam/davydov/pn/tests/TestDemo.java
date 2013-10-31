@@ -14,11 +14,12 @@ public class TestDemo extends Test_Base {
 		for (String string : description) {
 			System.out.println(string);
 		}
+		
 		System.out.println("-----------------");
+		
 		description = catalogPage.navigateToProductPage(3).getProductDescription();
 		for (String string : description) {
 			System.out.println(string);
 		}
-
 	}
 }
