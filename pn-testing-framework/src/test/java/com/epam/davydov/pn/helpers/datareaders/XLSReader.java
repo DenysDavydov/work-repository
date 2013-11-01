@@ -24,16 +24,18 @@ public class XLSReader {
 			for (int i = 1; i < rowCount; i++) {
 				for (int j = 0; j < columnCount; j++) {
 					Cell cell = sheet.getRow(i).getCell(j);
-					switch (cell.getCellType()) {
-					case Cell.CELL_TYPE_BLANK:
-					case Cell.CELL_TYPE_STRING:
-						result[i - 1][j] = cell.getStringCellValue();
-						break;
-					case Cell.CELL_TYPE_NUMERIC:
-						result[i - 1][j] = (int) cell.getNumericCellValue();
-						break;
-					default:
-						break;
+					if (cell != null) {
+						switch (cell.getCellType()) {
+						case Cell.CELL_TYPE_BLANK:
+						case Cell.CELL_TYPE_STRING:
+							result[i - 1][j] = cell.getStringCellValue();
+							break;
+						case Cell.CELL_TYPE_NUMERIC:
+							result[i - 1][j] = (int) cell.getNumericCellValue();
+							break;						
+						}
+					} else {
+						result[i - 1][j] = "";
 					}
 				}
 			}

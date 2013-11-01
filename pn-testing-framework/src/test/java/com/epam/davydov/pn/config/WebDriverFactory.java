@@ -1,6 +1,10 @@
 package com.epam.davydov.pn.config;
 
-import com.opera.core.systems.OperaDriver;
+import static org.openqa.selenium.remote.BrowserType.*;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -9,11 +13,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.Reporter;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import static org.openqa.selenium.remote.BrowserType.*;
+import com.opera.core.systems.OperaDriver;
 
 public class WebDriverFactory {
 	private static String defaultHub = null;
@@ -21,7 +23,7 @@ public class WebDriverFactory {
 	private static String key = null;
 	private static int count = 0;
 	private static WebDriver driver;
-	
+
 	static {
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			public void run() {
@@ -95,7 +97,9 @@ public class WebDriverFactory {
 
 	private static WebDriver newLocalDriver(Capabilities capabilities) {
 		try {
-			switch (capabilities.getBrowserName()) {
+			String browserName = capabilities.getBrowserName();
+			Reporter.log("Initialize \"" + browserName + "\" web driver");
+			switch (browserName) {
 			case IE:
 				driver = newIEDriver(capabilities);
 				break;
@@ -117,8 +121,8 @@ public class WebDriverFactory {
 	}
 
 	private static WebDriver newFireFoxDriver(Capabilities capabilities) {
-		((DesiredCapabilities) capabilities).setCapability(FirefoxDriver.PROFILE,
-				Settings.getFFProfilePath());
+		((DesiredCapabilities) capabilities).setCapability(
+				FirefoxDriver.PROFILE, Settings.getFFProfilePath());
 		return new FirefoxDriver(capabilities);
 	}
 
@@ -137,5 +141,5 @@ public class WebDriverFactory {
 		((DesiredCapabilities) capabilities).setCapability(
 				InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 		return new InternetExplorerDriver(capabilities);
-	}	
+	}
 }

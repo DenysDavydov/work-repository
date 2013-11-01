@@ -1,5 +1,7 @@
 package com.epam.davydov.pn.tests;
 
+import static org.openqa.selenium.remote.BrowserType.*;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Reporter;
@@ -16,8 +18,21 @@ public class Test_Base {
 
 	@BeforeSuite
 	protected void setUp() {
-		Reporter.log("Initialize web driver");
-		driver = WebDriverFactory.getDriver(DesiredCapabilities.firefox());
+		switch (Settings.getBrowserType()) {
+		case CHROME:
+			driver = WebDriverFactory.getDriver(DesiredCapabilities.chrome());
+			break;
+		case IE:
+			driver = WebDriverFactory.getDriver(DesiredCapabilities.internetExplorer());
+			break;
+		case OPERA:
+			driver = WebDriverFactory.getDriver(DesiredCapabilities.opera());
+			break;
+		case FIREFOX:
+		default:
+			driver = WebDriverFactory.getDriver(DesiredCapabilities.firefox());
+			break;
+		}
 	}
 
 	protected HomePage openHomePage() {
@@ -25,9 +40,9 @@ public class Test_Base {
 		Reporter.log("Open home page (" + homePageURL + ")");
 		driver.get(homePageURL);
 		return PageFactory.getPage(driver, HomePage.class);
-	}	
+	}
 
-	public <P extends Page> P navigateBack(Class<P> pageClass) {
+	protected <P extends Page> P navigateBack(Class<P> pageClass) {
 		Reporter.log("Driver navigate back");
 		driver.navigate().back();
 		return PageFactory.getPage(driver, pageClass);

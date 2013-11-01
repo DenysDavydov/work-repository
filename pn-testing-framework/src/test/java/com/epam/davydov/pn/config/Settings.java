@@ -47,4 +47,8 @@ public class Settings {
 	public static String getInputDataDir() {
 		return properties.getProperty("input.data.dir");
 	}
+
+	public static String getBrowserType() {
+		return properties.getProperty("browser.type");
+	}
 }
