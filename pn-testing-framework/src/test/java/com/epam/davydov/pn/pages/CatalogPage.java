@@ -20,11 +20,12 @@ public class CatalogPage extends Page {
 	private static final String ADD_ITEM_TO_COMPARISON = "//div[@class='item'][%s]//span[@class='compare_add_link comparep cs']";
 	private static final String SELECT_PRODUCT = "//div[@class='item'][%s]//div[@class='name']/a";
 
-	private By catalogItemMinPrice = By.xpath(".//span/b[1]");
 	private By catalogItemDescription = By.cssSelector(".description");
 	protected By catalogItemPrice = By.cssSelector("strong");
 	protected By catalogItemName = By.cssSelector(".name");
-
+	
+	@FindBy(xpath="//a[@class='green' and @rel='nofollow']")
+	private WebElement pricesLink;
 	@FindBy(css = ".pager-last.last>a")
 	private WebElement lastPageLink;
 	@FindBy(css = ".show_compare_head_block")
@@ -84,6 +85,12 @@ public class CatalogPage extends Page {
 		return PageFactory.getPage(driver, ProductPage.class);
 	}
 
+	public PricePage navigateToPricePage() {
+		Reporter.log("Open prices page");
+		pricesLink.click();
+		return PageFactory.getPage(driver, PricePage.class);
+	}
+
 	/**
 	 * Adds an item specified by it's number to comparison
 	 * 
@@ -111,24 +118,25 @@ public class CatalogPage extends Page {
 	 * 
 	 * */
 	public List<String> getProductDescription(int itemNumber) {
+		Reporter.log("Get description of product at number " + itemNumber);
 		WebElement item = getItemByNumber(itemNumber);
 		List<String> shortDescription = new ArrayList<>();
 
 		String description = item.findElement(catalogItemDescription).getText();
 
-		shortDescription.add(item.findElement(catalogItemName).getText().toLowerCase());
-		shortDescription.add(item.findElement(catalogItemMinPrice).getText());
+		shortDescription.add(item.findElement(catalogItemName).getText().toLowerCase().replaceAll(" / ", " "));
+		shortDescription.add(item.findElement(catalogItemPrice).getText());
 
 		String[] temp = description.substring(description.indexOf(";") + 1).split(";");
 
 		for (String string : temp) {
-			shortDescription.add(string.trim());
+			shortDescription.add(string.trim().toLowerCase());
 		}
 		return shortDescription;
 	}
 
 	private WebElement getItemByNumber(int itemNumber) {
-		By item = By.cssSelector(String.format(ITEM_POSITION, itemNumber));
+		By item = By.xpath(String.format(ITEM_POSITION, itemNumber));
 		return getElement(item);
 	}
 	

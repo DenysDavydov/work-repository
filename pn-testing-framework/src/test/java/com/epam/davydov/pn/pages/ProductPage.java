@@ -6,6 +6,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Reporter;
 
 import com.epam.davydov.pn.helpers.dataproviders.Product;
 
@@ -15,10 +16,10 @@ public class ProductPage extends Page {
 
 	@FindBy(css = ".row")
 	private List<WebElement> propertyRows;
-	@FindBy(xpath = "//div[@class='other-prices']/b[1]")
-	private WebElement minPrice;
-	@FindBy(xpath = "//*[@id='page-breadcrumbs']")
-	private WebElement productName;
+	@FindBy(css = ".summary-price")
+	private WebElement price;
+	@FindBy(xpath = "//div[@id='page-breadcrumbs']")
+	private WebElement breadCrumbs;
 
 	public Product getProduct() {
 		Product product = new Product();
@@ -31,13 +32,22 @@ public class ProductPage extends Page {
 		return product;
 	}
 
+	public String getCurrentProductName() {
+		String breadCrumbsText = breadCrumbs.getText();
+		return breadCrumbsText.substring(breadCrumbsText.lastIndexOf("»") + 3).replaceAll(" / ", " ");
+	}
+
 	public List<String> getProductDescription() {
+		Reporter.log("Get product's description from the product page");
 		List<String> shortDescription = new ArrayList<>();
-		shortDescription.add(productName.getText().toLowerCase());
-		shortDescription.add(minPrice.getText().toLowerCase());
+
+		shortDescription.add(getCurrentProductName().toLowerCase());
+		shortDescription.add(price.getText().toLowerCase());
+
 		for (WebElement row : propertyRows) {
-			shortDescription.add(row.findElement(webProperty).getText().toLowerCase() + " " + 
-		row.findElement(webPropertyValue).getText().toLowerCase());
+			String productProperty = row.findElement(webProperty).getText().toLowerCase();
+			String productPropertyValue = row.findElement(webPropertyValue).getText().toLowerCase();
+			shortDescription.add(productProperty + " " + productPropertyValue);
 		}
 		return shortDescription;
 	}

@@ -24,6 +24,7 @@ public class HomePage extends Page {
 	}
 
 	public void search(String searchQuery) {
+		Reporter.log("Search for " + searchQuery);
 		searchField.sendKeys(searchQuery);
 		searchSubmit.click();
 	}
