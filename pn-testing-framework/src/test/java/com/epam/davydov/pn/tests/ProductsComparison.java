@@ -1,7 +1,6 @@
 package com.epam.davydov.pn.tests;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +13,14 @@ import com.epam.davydov.pn.helpers.dataproviders.Product;
 import com.epam.davydov.pn.pages.CatalogPage;
 import com.epam.davydov.pn.pages.ComparisonPage;
 
-public class Test_MicrowaveComparison extends Test_Base {
+public class ProductsComparison extends TestBase {
 	ComparisonPage comparisonPage;
 
 	List<Product> realProducts;
 	List<Product> comparingProducts;
 
 	@Test(dataProvider = "comparingProductsProvider", dataProviderClass = BaseDataProvider.class)
-	public void test_ProductsComparison(String category, int[] productsNumbers) {
+	public void testProductsComparison(String category, int[] productsNumbers) {
 		CatalogPage microwaveCatalog = openHomePage().navigateTo(category);
 
 		for (int i = 0; i < productsNumbers.length; i++) {
@@ -40,8 +39,8 @@ public class Test_MicrowaveComparison extends Test_Base {
 	}
 
 	@Test(priority = 1)
-	public void test_ComparingProducts_WithDifferentProperties_IsHighlighted() {
-		assertTrue(comparisonPage.isDifferentContentHighlighted());
+	public void testDifferentPropertiesHighlighting() {
+		comparisonPage.verifyDifferentPropertiesHighlighting();
 	}
 
 	@BeforeClass

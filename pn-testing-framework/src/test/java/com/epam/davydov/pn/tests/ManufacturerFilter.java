@@ -11,12 +11,12 @@ import com.epam.davydov.pn.helpers.dataproviders.BaseDataProvider;
 import com.epam.davydov.pn.pages.CatalogFilter;
 import com.epam.davydov.pn.pages.CatalogPage;
 
-public class Test_BakeryManufacturerFilter extends Test_Base {
+public class ManufacturerFilter extends TestBase {
+	private Set<String> filterManufacturers;
+	private Set<String> catalogManufacturers;
+
 	@Test(dataProvider = "baseDataProvider", dataProviderClass = BaseDataProvider.class)
-	public void test_BakeryManufacturerFilter(String category, String filterCategory) {
-		Set<String> filterManufacturers;
-		Set<String> catalogManufacturers;
-		
+	public void testManufacturerFilter(String category, String filterCategory) {
 		openHomePage().navigateTo(category);
 		
 		CatalogFilter bakeryFilter = PageFactory.getPage(driver, CatalogFilter.class);

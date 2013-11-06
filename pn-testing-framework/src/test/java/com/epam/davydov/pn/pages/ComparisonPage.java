@@ -35,7 +35,8 @@ public class ComparisonPage extends Page {
 		return product;
 	}
 
-	public boolean isDifferentContentHighlighted() {
+	public void verifyDifferentPropertiesHighlighting() {
+		boolean isFailed = false;
 		for (WebElement row : propertyRows) {
 			List<String> rowContent = getRowContent(row);
 			// checks if content of the row is not same
@@ -44,11 +45,11 @@ public class ComparisonPage extends Page {
 				// checks if different content of the row is highlighted
 				if (!rowCSSClassName.equals("different")) {
 					Reporter.log("Row " + rowContent + " is not highlighted");
-					return false;
+					isFailed = true;
 				}
 			}
 		}
-		return true;
+		BaseHelper.generateResult(isFailed);
 	}
 
 	private List<String> getRowContent(WebElement row) {

@@ -1,5 +1,7 @@
 package com.epam.davydov.pn.helpers.core;
 
+import static org.testng.Assert.fail;
+
 import java.util.Iterator;
 
 import org.testng.Reporter;
@@ -7,19 +9,19 @@ import org.testng.Reporter;
 import com.epam.davydov.pn.helpers.dataproviders.Product;
 
 public class BaseHelper {
-
-	public static boolean isProductsSortedBy(Iterable<Product> iterable, String key) {
+	public static void verifyProductsSorting(Iterable<Product> iterable, String key) {
+		boolean isFailed = false;
 		Iterator<Product> iterator = iterable.iterator();
 		Product p = iterator.next();
 		while (iterator.hasNext()) {
 			Product p2 = iterator.next();
 			if (p.compareItemByProperty(p2, key) > 0) {
 				Reporter.log(p + " > " + p2);
-				return false;
+				isFailed = true;
 			}
 			p = p2;
 		}
-		return true;
+		generateResult(isFailed);		
 	}
 
 	public static <T> boolean isContentSame(Iterable<T> iterable) {
@@ -33,5 +35,10 @@ public class BaseHelper {
 			o = o2;
 		}
 		return true;
+	}
+	
+	public static void generateResult(boolean isFailed) {
+		if (isFailed)
+			fail();
 	}
 }

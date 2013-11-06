@@ -2,15 +2,13 @@ package com.epam.davydov.pn.tests;
 
 import static org.testng.Assert.assertTrue;
 
-import java.util.List;
-
 import org.testng.annotations.Test;
 
 import com.epam.davydov.pn.config.PageFactory;
 import com.epam.davydov.pn.pages.CatalogPage;
 import com.epam.davydov.pn.pages.PricePage;
 
-public class TestDemo extends Test_Base {
+public class TestDemo extends TestBase {
 	@Test
 	public void test_Demo() {
 		CatalogPage catalogPage = openHomePage().navigateTo("Кондиционеры");

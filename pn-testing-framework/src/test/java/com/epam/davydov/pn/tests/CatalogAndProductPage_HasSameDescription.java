@@ -13,11 +13,11 @@ import com.epam.davydov.pn.pages.CatalogPage;
 import com.epam.davydov.pn.pages.PricePage;
 import com.epam.davydov.pn.pages.ProductPage;
 
-public class Test_AirConditionerPrice extends Test_Base {
+public class CatalogAndProductPage_HasSameDescription extends TestBase {
 	private SoftAssert softAssert;
 
 	@Test(dataProvider = "baseDataProvider", dataProviderClass = BaseDataProvider.class)
-	public void test_AirConditionerPrice(String category, int productNumber) {
+	public void testProductHasSameDescription(String category, int productNumber) {
 		CatalogPage catalog = openHomePage().navigateTo(category);
 		List<String> catalogItemDescription = catalog.getProductDescription(productNumber);
 
@@ -35,7 +35,6 @@ public class Test_AirConditionerPrice extends Test_Base {
 		softAssert.assertTrue(priceSearchResult.allDescriptionLinksLeadsToProductPage(productPageURL), 
 				"Links assert");
 		softAssert.assertAll();
-		softAssert = null;
 	}
 
 	@BeforeMethod
@@ -45,10 +44,16 @@ public class Test_AirConditionerPrice extends Test_Base {
 
 	private boolean isParentContainsChildItems(List<String> parent, List<String> child) {
 		boolean result = true;
+		System.setProperty("org.uncommons.reportng.escape-output", "false");
 		String parentText = parent.toString();
 		for (String row : child) {
 			if (!parentText.contains(row)) {
-				Reporter.log(parent.get(0) + " product page doesn't contains " + row + " property");
+				String message = 
+						String.format(
+								"<font color=\"red\">%s product page doesn't contains %s property</font>", 
+								parent.get(0), row);
+				Reporter.log(message);
+//				Reporter.log(parent.get(0) + " product page doesn't contains " + row + " property");
 				result = false;
 			}
 		}

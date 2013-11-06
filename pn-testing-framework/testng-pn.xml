@@ -2,32 +2,32 @@
 <suite name="pn-testing-task">
 	<test name="fridges-sorting" enabled="false">
 		<classes>
-			<class name="com.epam.davydov.pn.tests.Test_FridgesSorting" />
+			<class name="com.epam.davydov.pn.tests.ProductsSorting" />
 		</classes>
 	</test>
 	<test name="microwave-comparison" enabled="false">
 		<classes>
-			<class name="com.epam.davydov.pn.tests.Test_MicrowaveComparison" />
+			<class name="com.epam.davydov.pn.tests.ProductsComparison" />
 		</classes>
 	</test>
 	<test name="bakery-filter" enabled="false">
 		<classes>
-			<class name="com.epam.davydov.pn.tests.Test_BakeryFilterFunctions" />
+			<class name="com.epam.davydov.pn.tests.FilterFunctioning" />
 		</classes>
 	</test>
 	<test name="washers-price-filter" enabled="false">
 		<classes>
-			<class name="com.epam.davydov.pn.tests.Test_WashersPriceFilter" />
+			<class name="com.epam.davydov.pn.tests.PriceFilter" />
 		</classes>
 	</test>
 	<test name="bakery-manufacturer-filter" enabled="false">
 		<classes>
-			<class name="com.epam.davydov.pn.tests.Test_BakeryManufacturerFilter" />
+			<class name="com.epam.davydov.pn.tests.ManufacturerFilter" />
 		</classes>
 	</test>
 	<test name="air-conditioner-price">
 		<classes>
-			<class name="com.epam.davydov.pn.tests.Test_AirConditionerPrice" />
+			<class name="com.epam.davydov.pn.tests.CatalogAndProductPage_HasSameDescription" />
 		</classes>
 	</test>
 </suite>

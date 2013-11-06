@@ -13,7 +13,7 @@ import com.epam.davydov.pn.config.WebDriverFactory;
 import com.epam.davydov.pn.pages.HomePage;
 import com.epam.davydov.pn.pages.Page;
 
-public class Test_Base {
+public class TestBase {
 	protected WebDriver driver;
 
 	@BeforeSuite
