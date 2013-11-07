@@ -25,8 +25,10 @@ public class ScreenShotOnFailure extends TestListenerAdapter {
 		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		DateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy__hh_mm_ssaa");
 
-		String destDirName = "target/surefire-reports/screenshots/";
+		String destDirName = "target/surefire-reports/html/screenshots/";
 		String destFileName = dateFormat.format(new Date()) + ".png";
+
+		String jenkinsFile = "screenshots/" + destFileName;
 
 		new File(destDirName).mkdirs();
 		File destFile = new File(destDirName + "/" + destFileName);
@@ -36,6 +38,6 @@ public class ScreenShotOnFailure extends TestListenerAdapter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Reporter.log(format("<a href=%s><img src=%s width=200 height=150></a><br>", destFile, destFile));
+		Reporter.log(format("<a href=%s><img src=%s width=200 height=150></a><br>", jenkinsFile, jenkinsFile));
 	}
 }
