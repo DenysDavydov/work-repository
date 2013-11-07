@@ -1,15 +1,18 @@
 package com.epam.davydov.pn.tests;
 
 import static java.lang.String.format;
-import static org.openqa.selenium.remote.BrowserType.*;
+import static org.openqa.selenium.remote.BrowserType.CHROME;
+import static org.openqa.selenium.remote.BrowserType.FIREFOX;
+import static org.openqa.selenium.remote.BrowserType.IE;
+import static org.openqa.selenium.remote.BrowserType.OPERA;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeSuite;
 
+import com.epam.davydov.pn.config.Configuration;
 import com.epam.davydov.pn.config.PageFactory;
-import com.epam.davydov.pn.config.Settings;
 import com.epam.davydov.pn.config.WebDriverFactory;
 import com.epam.davydov.pn.pages.HomePage;
 import com.epam.davydov.pn.pages.Page;
@@ -19,7 +22,7 @@ public class TestBase {
 
 	@BeforeSuite
 	protected void setUp() {
-		switch (Settings.getBrowserType()) {
+		switch (Configuration.getBrowserType()) {		
 		case CHROME:
 			driver = WebDriverFactory.getDriver(DesiredCapabilities.chrome());
 			break;
@@ -37,7 +40,7 @@ public class TestBase {
 	}
 
 	protected HomePage openHomePage() {
-		String homePageURL = Settings.getHomePageURL();
+		String homePageURL = System.getProperty("home.page.url");
 		Reporter.log(format("Open home page (\"%s\")<br>", homePageURL));
 		driver.get(homePageURL);
 		return PageFactory.getPage(driver, HomePage.class);

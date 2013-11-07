@@ -11,7 +11,6 @@ public class Settings {
 
 	static {
 		System.setProperty("org.uncommons.reportng.escape-output", "false");
-		
 		try {
 			properties = new Properties();
 			properties.load(new FileReader(CONFIG_FILE));

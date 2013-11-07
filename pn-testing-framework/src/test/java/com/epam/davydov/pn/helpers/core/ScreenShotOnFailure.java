@@ -33,7 +33,6 @@ public class ScreenShotOnFailure extends TestListenerAdapter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		Reporter.log("Saved <a href=../screenshots/" + destFile + ">Screenshot</a>");
 		Reporter.log(format("<a href=../screenshots/%s><img src=../screenshots/%s width=200 height=150></a><br>",
 				destFile, destFile));
 	}

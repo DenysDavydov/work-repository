@@ -1,5 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="pn-testing-task">
+	<listeners>
+		<listener class-name="com.epam.davydov.pn.helpers.core.ScreenShotOnFailure" />
+	</listeners>
 	<test name="fridges-sorting" enabled="false">
 		<classes>
 			<class name="com.epam.davydov.pn.tests.ProductsSorting" />
@@ -27,7 +30,8 @@
 	</test>
 	<test name="air-conditioner-price">
 		<classes>
-			<class name="com.epam.davydov.pn.tests.CatalogAndProductPage_HasSameDescription" />
+			<class
+				name="com.epam.davydov.pn.tests.CatalogAndProductPage_HasSameDescription" />
 		</classes>
 	</test>
 </suite>
