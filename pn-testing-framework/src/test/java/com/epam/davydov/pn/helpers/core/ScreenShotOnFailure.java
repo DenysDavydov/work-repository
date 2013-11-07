@@ -1,6 +1,6 @@
 package com.epam.davydov.pn.helpers.core;
 
-import static java.lang.String.format;
+import static com.epam.davydov.pn.helpers.core.BaseHelper.log;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,31 +13,32 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
-import org.testng.Reporter;
 import org.testng.TestListenerAdapter;
 
 import com.epam.davydov.pn.config.WebDriverFactory;
 
 public class ScreenShotOnFailure extends TestListenerAdapter {
+	private static final String HIPERLINK_IMAGE = "<a href=\"%s\"><img src=\"%<s\" width=200 height=150></a><br>";
+
 	@Override
 	public void onTestFailure(ITestResult tr) {
 		WebDriver driver = WebDriverFactory.getDriver();
-		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		DateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy__hh_mm_ssaa");
 
-		String destDirName = "target/surefire-reports/html/screenshots/";
-		String destFileName = dateFormat.format(new Date()) + ".png";
+		String dstDirName = "target/surefire-reports/html/screenshots/";
+		String dstFileName = dateFormat.format(new Date()) + ".png";
 
-		String jenkinsFile = "screenshots/" + destFileName;
+		String relativeFileName = "screenshots/" + dstFileName;
 
-		new File(destDirName).mkdirs();
-		File destFile = new File(destDirName + "/" + destFileName);
+		new File(dstDirName).mkdirs();
+		File destFile = new File(dstDirName + "/" + dstFileName);
 
 		try {
-			FileUtils.copyFile(scrFile, destFile);
+			FileUtils.copyFile(srcFile, destFile);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log("IO exception has occured");
 		}
-		Reporter.log(format("<a href=%s><img src=%s width=200 height=150></a><br>", jenkinsFile, jenkinsFile));
+		log(HIPERLINK_IMAGE, relativeFileName);
 	}
 }

@@ -40,15 +40,15 @@ public class TestBase {
 	}
 
 	protected HomePage openHomePage() {
-		String homePageURL = System.getProperty("home.page.url");
+		String homePageURL = Configuration.getBaseURL();
 		Reporter.log(format("Open home page (\"%s\")<br>", homePageURL));
 		driver.get(homePageURL);
-		return PageFactory.getPage(driver, HomePage.class);
+		return PageFactory.getPage(HomePage.class);
 	}
 
 	protected <P extends Page> P navigateBack(Class<P> pageClass) {
 		Reporter.log("Driver navigate back<br>");
 		driver.navigate().back();
-		return PageFactory.getPage(driver, pageClass);
+		return PageFactory.getPage(pageClass);
 	}
 }

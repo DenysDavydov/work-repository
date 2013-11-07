@@ -1,5 +1,8 @@
 package com.epam.davydov.pn.pages;
 
+import static com.epam.davydov.pn.helpers.core.BaseHelper.*;
+import static java.lang.String.format;
+
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -7,7 +10,6 @@ import java.util.TreeSet;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Reporter;
 
 import com.epam.davydov.pn.helpers.core.BaseHelper;
 
@@ -19,9 +21,9 @@ public class CatalogFilter extends CatalogPage {
 	private WebElement showAllButton;
 
 	public void toggleFilter(String filterCategory, String filterName) {
-		Reporter.log(String.format("Toggle \"%s\" filter from \"%s\" category", filterName, filterCategory));
+		log("Toggle \"%s\" filter from \"%s\" category<br>", filterName, filterCategory);
 
-		String selector = String.format(FILTER, filterCategory, filterName);
+		String selector = format(FILTER, filterCategory, filterName);
 		WebElement filterButton = getElement(By.xpath(selector));
 
 		String filterButtonCSSClassName = filterButton.getAttribute("class");
@@ -37,7 +39,8 @@ public class CatalogFilter extends CatalogPage {
 		for (WebElement catalogItem : catalogItems) {
 			if (!catalogItem.getText().contains(property)) {
 				String productName = catalogItem.findElement(catalogItemName).getText();
-				Reporter.log(String.format("Product \"%s\" doesn't contains \"%s\" property", productName, property));
+				String message = format("Product \"%s\" doesn't contains \"%s\" property", productName, property);
+				log(RED_FONT, message);
 				isFailed = true;
 			}
 		}
@@ -52,8 +55,9 @@ public class CatalogFilter extends CatalogPage {
 
 			if (productPrice < minPrice || productPrice > maxPrice) {
 				String productName = catalogItem.findElement(catalogItemName).getText();
-				Reporter.log(String.format("Product \"%s\" price (\"%s\") not in range \"%s\" - \"%s\"", 
-						productName, productPrice, minPrice, maxPrice));
+				String message = format("Product \"%s\" price (\"%s\") not in range \"%s\" - \"%s\"<br>",
+						productName, productPrice, minPrice, maxPrice);
+				log(RED_FONT, message);
 				isFailed = true;
 			}
 		}
@@ -61,14 +65,14 @@ public class CatalogFilter extends CatalogPage {
 	}
 
 	public Set<String> getFilterNames(String filterCategory) {
-		Reporter.log("Get set of filter names from \"" + filterCategory + "\" category");
+		log("Get set of filter names from \"%s\" category<br>", filterCategory);
 		Set<String> filterNames = new TreeSet<>();
-		
+
 		showAllButton.click();
-		
+
 		By filterLinks = By.xpath(String.format(FILTER_LINKS, filterCategory));
 		List<WebElement> filterLinksList = getElements(filterLinks);
-		
+
 		for (WebElement filterLink : filterLinksList) {
 			if (filterLink.getAttribute("href").startsWith("javascript"))
 				continue;

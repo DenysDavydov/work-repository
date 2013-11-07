@@ -31,7 +31,7 @@ public class CatalogAndProductPage_HasSameDescription extends TestBase {
 		String productName = productPage.getCurrentProductName();
 
 		navigateBack(CatalogPage.class).navigateToPricePage().search(productName);
-		PricePage priceSearchResult = PageFactory.getPage(driver, PricePage.class);
+		PricePage priceSearchResult = PageFactory.getPage(PricePage.class);
 
 		softAssert.assertTrue(priceSearchResult.allDescriptionLinksLeadsToProductPage(productPageURL), "Links assert");
 		softAssert.assertAll();

@@ -45,8 +45,8 @@ public class Settings {
 		return properties.getProperty("home.page.url");
 	}
 
-	public static String getInputDataDir() {
-		return properties.getProperty("input.data.dir");
+	public static String getTestDataDir() {
+		return properties.getProperty("test.data.dir");
 	}
 
 	public static String getBrowserType() {

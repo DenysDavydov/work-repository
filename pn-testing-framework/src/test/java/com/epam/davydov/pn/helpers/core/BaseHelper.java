@@ -11,6 +11,8 @@ import org.testng.Reporter;
 import com.epam.davydov.pn.helpers.dataproviders.Product;
 
 public class BaseHelper {
+	public static final String RED_FONT = "<font color=\"red\">%s</font><br>";
+
 	public static void verifyProductsSorting(Iterable<Product> iterable, String key) {
 		boolean isFailed = false;
 		Iterator<Product> iterator = iterable.iterator();
@@ -44,14 +46,20 @@ public class BaseHelper {
 		String parentText = parent.toString();
 		for (String row : child) {
 			if (!parentText.contains(row)) {
-				String message = format(
-						"<font color=\"red\">\"%s\" product page doesn't contains \"%s\" property</font><br>",
-						parent.get(0), row);
-				Reporter.log(message);
+				String message = format("\"%s\" product page doesn't contains \"%s\" property", parent.get(0), row);
+				Reporter.log(format(RED_FONT, message));
 				result = false;
 			}
 		}
 		return result;
+	}
+
+	public static void log(String format, Object... args) {
+		Reporter.log(format(format, args));
+	}
+
+	public static void log(String message) {
+		Reporter.log(message);
 	}
 
 	public static void generateResult(boolean isFailed) {

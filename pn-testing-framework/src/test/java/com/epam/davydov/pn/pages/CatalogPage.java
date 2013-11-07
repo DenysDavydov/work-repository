@@ -1,6 +1,7 @@
 package com.epam.davydov.pn.pages;
 
 import static java.lang.String.format;
+import static com.epam.davydov.pn.helpers.core.BaseHelper.log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +43,10 @@ public class CatalogPage extends Page {
 	 * 
 	 * */
 	public CatalogPage sortBy(String how) {
-		Reporter.log("Click on the \"" + how + "\" sort button");
+		log("Click on the \"%s\" sort button<br>", how);
 		By sortButton = By.xpath(String.format(SORT, how));
 		getElement(sortButton).click();
-		return PageFactory.getPage(driver, this.getClass());
+		return PageFactory.getPage(this.getClass());
 	}
 
 	/**
@@ -54,7 +55,7 @@ public class CatalogPage extends Page {
 	 * @return ArrayList contained all items from the current page
 	 * */
 	public List<Product> getProducts() {
-		Reporter.log("Get short products from the catalog");
+		log("Get short products from the catalog<br>");
 		List<Product> products = new ArrayList<>();
 		for (WebElement catalogItem : catalogItems) {
 			products.add(parseCatalogItem(catalogItem));
@@ -81,16 +82,16 @@ public class CatalogPage extends Page {
 	 * @return Page of selected product
 	 */
 	public ProductPage navigateToProductPage(int catalogItemNumber) {
-		Reporter.log(format("Open product page at number %s<br>", catalogItemNumber));
+		log("Open product page at number %s<br>", catalogItemNumber);
 		By productLink = By.xpath(String.format(SELECT_PRODUCT, catalogItemNumber));
 		getElement(productLink).click();
-		return PageFactory.getPage(driver, ProductPage.class);
+		return PageFactory.getPage(ProductPage.class);
 	}
 
 	public PricePage navigateToPricePage() {
-		Reporter.log("Open price-list page<br>");
+		log("Open price-list page<br>");
 		pricesLink.click();
-		return PageFactory.getPage(driver, PricePage.class);
+		return PageFactory.getPage(PricePage.class);
 	}
 
 	/**
@@ -99,7 +100,7 @@ public class CatalogPage extends Page {
 	 * @param itemNumber it's an item's number in the catalog starting from top of the page
 	 */
 	public void addItemToComparison(int itemNumber) {
-		Reporter.log("Add to comparison product at number " + itemNumber);
+		log("Add to comparison product at number %s<br>", itemNumber);
 		By addToComparisonButton = By.xpath(String.format(ADD_ITEM_TO_COMPARISON, itemNumber));
 		getElement(addToComparisonButton).click();
 	}
@@ -110,9 +111,9 @@ public class CatalogPage extends Page {
 	 * @return comparison page wich contains item added to comparison
 	 */
 	public ComparisonPage compareItems() {
-		Reporter.log("Click at the compare button, go to comparison page");
+		log("Click at the compare button, go to comparison page<br>");
 		compareButton.click();
-		return PageFactory.getPage(driver, ComparisonPage.class);
+		return PageFactory.getPage(ComparisonPage.class);
 	}
 	
 	/**
@@ -120,7 +121,7 @@ public class CatalogPage extends Page {
 	 * 
 	 * */
 	public List<String> getProductDescription(int itemNumber) {
-		Reporter.log(format("Get description of product at number %s<br>", itemNumber));
+		log("Get description of product at number %s<br>", itemNumber);
 		WebElement item = getItemByNumber(itemNumber);
 		List<String> shortDescription = new ArrayList<>();
 
@@ -146,7 +147,7 @@ public class CatalogPage extends Page {
 	 * 
 	 * */
 	public Set<String> getAllCatalogManufacturers() {
-		Reporter.log("Get set of all catalog manufacturers");
+		log("Get set of all catalog manufacturers<br>");
 		Set<String> allManufacturers = new TreeSet<>();
 		allManufacturers.addAll(getCatalogManufacturers());
 		String currentURL = getCurrentURL();
@@ -154,7 +155,7 @@ public class CatalogPage extends Page {
 		for (int i = 1; i < pagesCount; i++) {
 			String pageURL = String.format(PAGER, currentURL, i);
 			driver.get(pageURL);
-			CatalogPage nextPage = PageFactory.getPage(driver, CatalogPage.class);
+			CatalogPage nextPage = PageFactory.getPage(CatalogPage.class);
 			allManufacturers.addAll(nextPage.getCatalogManufacturers());
 		}
 		return allManufacturers;

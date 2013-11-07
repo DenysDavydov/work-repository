@@ -41,6 +41,6 @@ public class BaseDataProvider {
 	}
 	
 	private static String getDataFileName(Method method){
-		return Settings.getInputDataDir() + method.getDeclaringClass().getSimpleName() + ".xlsx";
+		return Settings.getTestDataDir() + method.getDeclaringClass().getSimpleName() + ".xlsx";
 	}
 }

@@ -22,7 +22,7 @@ public class HomePage extends Page {
 		By categoryButton = By.xpath(format(CATEGORY_BUTTON, category));
 		getElement(categoryButton).click();
 
-		return PageFactory.getPage(driver, CatalogPage.class);
+		return PageFactory.getPage(CatalogPage.class);
 	}
 
 	public void search(String searchQuery) {

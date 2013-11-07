@@ -1,25 +1,27 @@
 package com.epam.davydov.pn.config;
 
-
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
+import static org.openqa.selenium.support.PageFactory.initElements;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import static org.openqa.selenium.support.PageFactory.initElements;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
+
+import com.epam.davydov.pn.pages.Page;
 
 public class PageFactory {
 	private static final int TIMEOUT = Settings.getAjaxFactoryWaitTimeout();
+	private static WebDriver driver = WebDriverFactory.getDriver();
 
-	public static <P extends com.epam.davydov.pn.pages.Page> P getPage(WebDriver driver, Class<P> pageClass) {
-		P page = instantiatePage(driver, pageClass);
+	public static <P extends Page> P getPage(Class<P> pageClass) {
+		P page = instantiatePage(pageClass);
 		initElements(new AjaxElementLocatorFactory(driver, TIMEOUT), page);
-		page.driver = driver;		
+		page.driver = driver;
 		return page;
 	}
 
-	private static <P> P instantiatePage(WebDriver driver, Class<P> pageClassToProxy) {
+	private static <P> P instantiatePage(Class<P> pageClassToProxy) {
 		try {
 			try {
 				Constructor<P> constructor = pageClassToProxy.getConstructor(WebDriver.class);
@@ -30,5 +32,5 @@ public class PageFactory {
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}
-    }
+	}
 }

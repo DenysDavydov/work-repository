@@ -12,7 +12,7 @@ public class PriceFilter extends TestBase {
 			String maxFilterName, int maxFilterValue, int filterLimit) {
 		
 		openHomePage().navigateTo(category);
-		CatalogFilter washersFilter = PageFactory.getPage(driver, CatalogFilter.class);
+		CatalogFilter washersFilter = PageFactory.getPage(CatalogFilter.class);
 		
 		washersFilter.toggleFilter(minFilterName, String.valueOf(minFilterValue));
 		

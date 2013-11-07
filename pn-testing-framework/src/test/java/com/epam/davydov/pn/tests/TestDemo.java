@@ -24,7 +24,7 @@ public class TestDemo extends TestBase {
 //			System.out.println(string);
 //		}
 		catalogPage.navigateToPricePage().search("Midea MSR-09HRN1");
-		PricePage priceSearchResult = PageFactory.getPage(driver, PricePage.class);
+		PricePage priceSearchResult = PageFactory.getPage(PricePage.class);
 		assertTrue(priceSearchResult.allDescriptionLinksLeadsToProductPage("http://pn.com.ua/md/40596/"));
 	}
 }

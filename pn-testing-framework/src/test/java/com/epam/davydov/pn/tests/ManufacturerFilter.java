@@ -19,10 +19,10 @@ public class ManufacturerFilter extends TestBase {
 	public void testManufacturerFilter(String category, String filterCategory) {
 		openHomePage().navigateTo(category);
 		
-		CatalogFilter bakeryFilter = PageFactory.getPage(driver, CatalogFilter.class);
+		CatalogFilter bakeryFilter = PageFactory.getPage(CatalogFilter.class);
 		filterManufacturers  = bakeryFilter.getFilterNames(filterCategory);
 		
-		CatalogPage bakeryCatalog = PageFactory.getPage(driver, CatalogPage.class);
+		CatalogPage bakeryCatalog = PageFactory.getPage(CatalogPage.class);
 		catalogManufacturers = bakeryCatalog.getAllCatalogManufacturers();
 		
 		assertEquals(filterManufacturers, catalogManufacturers);

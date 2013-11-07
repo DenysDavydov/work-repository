@@ -1,12 +1,14 @@
 package com.epam.davydov.pn.pages;
 
+import static com.epam.davydov.pn.helpers.core.BaseHelper.*;
+import static java.lang.String.format;
+
 import com.epam.davydov.pn.helpers.core.BaseHelper;
 import com.epam.davydov.pn.helpers.dataproviders.Product;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Reporter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,8 @@ public class ComparisonPage extends Page {
 				String rowCSSClassName = row.getAttribute("class");
 				// checks if different content of the row is highlighted
 				if (!rowCSSClassName.equals("different")) {
-					Reporter.log("Row " + rowContent + " is not highlighted");
+					String message = format("Row \"%s\" is not highlighted", rowContent);
+					log(RED_FONT, message);
 					isFailed = true;
 				}
 			}

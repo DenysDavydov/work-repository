@@ -1,6 +1,7 @@
 package com.epam.davydov.pn.config;
 
 import static org.openqa.selenium.remote.BrowserType.*;
+import static com.epam.davydov.pn.helpers.core.BaseHelper.log;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -13,7 +14,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.Reporter;
 
 import com.opera.core.systems.OperaDriver;
 
@@ -102,7 +102,7 @@ public class WebDriverFactory {
 	private static WebDriver newLocalDriver(Capabilities capabilities) {
 		try {
 			String browserName = capabilities.getBrowserName();
-			Reporter.log("Initialize \"" + browserName + "\" web driver");
+			log("Init \"%s\" web driver<br>", browserName);
 			switch (browserName) {
 			case IE:
 				driver = newIEDriver(capabilities);
