@@ -10,6 +10,8 @@ public class Settings {
 	private static Properties properties;
 
 	static {
+		System.setProperty("org.uncommons.reportng.escape-output", "false");
+		
 		try {
 			properties = new Properties();
 			properties.load(new FileReader(CONFIG_FILE));

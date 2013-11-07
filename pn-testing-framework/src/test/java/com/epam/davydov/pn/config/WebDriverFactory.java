@@ -68,6 +68,10 @@ public class WebDriverFactory {
 		return getDriver(defaultHub, capabilities);
 	}
 
+	public static WebDriver getDriver() {
+		return driver != null ? driver : getDriver(defaultHub, DesiredCapabilities.firefox());
+	}
+
 	public static void dismissDriver() {
 		if (driver != null) {
 			try {
@@ -121,8 +125,7 @@ public class WebDriverFactory {
 	}
 
 	private static WebDriver newFireFoxDriver(Capabilities capabilities) {
-		((DesiredCapabilities) capabilities).setCapability(
-				FirefoxDriver.PROFILE, Settings.getFFProfilePath());
+		((DesiredCapabilities) capabilities).setCapability(FirefoxDriver.PROFILE, Settings.getFFProfilePath());
 		return new FirefoxDriver(capabilities);
 	}
 

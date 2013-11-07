@@ -1,5 +1,7 @@
 package com.epam.davydov.pn.pages;
 
+import static java.lang.String.format;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,16 +17,16 @@ public class HomePage extends Page {
 	@FindBy(id = "edit-submit-1")
 	private WebElement searchSubmit;
 
-	public CatalogPage navigateTo(String catecory) {
-		Reporter.log("Navigate to \"" + catecory + "\" category");
-		By categoryButton = By.xpath(String.format(CATEGORY_BUTTON, catecory));
+	public CatalogPage navigateTo(String category) {
+		Reporter.log(format("Navigate to \"%s\" category<br>", category));
+		By categoryButton = By.xpath(format(CATEGORY_BUTTON, category));
 		getElement(categoryButton).click();
 
 		return PageFactory.getPage(driver, CatalogPage.class);
 	}
 
 	public void search(String searchQuery) {
-		Reporter.log("Search for " + searchQuery);
+		Reporter.log(format("Search for \"%s\"<br>", searchQuery));
 		searchField.sendKeys(searchQuery);
 		searchSubmit.click();
 	}

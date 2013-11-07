@@ -38,7 +38,7 @@ public class ProductPage extends Page {
 	}
 
 	public List<String> getProductDescription() {
-		Reporter.log("Get product's description from the product page");
+		Reporter.log("Get product's description from the product page<br>");
 		List<String> shortDescription = new ArrayList<>();
 
 		shortDescription.add(getCurrentProductName().toLowerCase());

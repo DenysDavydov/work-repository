@@ -1,5 +1,7 @@
 package com.epam.davydov.pn.pages;
 
+import static java.lang.String.format;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -79,14 +81,14 @@ public class CatalogPage extends Page {
 	 * @return Page of selected product
 	 */
 	public ProductPage navigateToProductPage(int catalogItemNumber) {
-		Reporter.log("Open product page at number " + catalogItemNumber);
+		Reporter.log(format("Open product page at number %s<br>", catalogItemNumber));
 		By productLink = By.xpath(String.format(SELECT_PRODUCT, catalogItemNumber));
 		getElement(productLink).click();
 		return PageFactory.getPage(driver, ProductPage.class);
 	}
 
 	public PricePage navigateToPricePage() {
-		Reporter.log("Open prices page");
+		Reporter.log("Open price-list page<br>");
 		pricesLink.click();
 		return PageFactory.getPage(driver, PricePage.class);
 	}
@@ -118,7 +120,7 @@ public class CatalogPage extends Page {
 	 * 
 	 * */
 	public List<String> getProductDescription(int itemNumber) {
-		Reporter.log("Get description of product at number " + itemNumber);
+		Reporter.log(format("Get description of product at number %s<br>", itemNumber));
 		WebElement item = getItemByNumber(itemNumber);
 		List<String> shortDescription = new ArrayList<>();
 

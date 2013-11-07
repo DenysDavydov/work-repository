@@ -1,5 +1,6 @@
 package com.epam.davydov.pn.tests;
 
+import static java.lang.String.format;
 import static org.openqa.selenium.remote.BrowserType.*;
 
 import org.openqa.selenium.WebDriver;
@@ -37,13 +38,13 @@ public class TestBase {
 
 	protected HomePage openHomePage() {
 		String homePageURL = Settings.getHomePageURL();
-		Reporter.log("Open home page (" + homePageURL + ")");
+		Reporter.log(format("Open home page (\"%s\")<br>", homePageURL));
 		driver.get(homePageURL);
 		return PageFactory.getPage(driver, HomePage.class);
 	}
 
 	protected <P extends Page> P navigateBack(Class<P> pageClass) {
-		Reporter.log("Driver navigate back");
+		Reporter.log("Driver navigate back<br>");
 		driver.navigate().back();
 		return PageFactory.getPage(driver, pageClass);
 	}
