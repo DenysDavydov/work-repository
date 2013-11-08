@@ -7,7 +7,6 @@ import org.testng.asserts.IAssert;
 import org.testng.collections.Maps;
 
 public class CustomSoftAssert extends Assertion {
-	// LinkedHashMap to preserve the order
 	private Map<AssertionError, IAssert> m_errors = Maps.newLinkedHashMap();
 
 	@Override
