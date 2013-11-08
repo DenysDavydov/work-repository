@@ -11,8 +11,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import com.epam.davydov.pn.helpers.core.BaseHelper;
-
 public class CatalogFilter extends CatalogPage {
 	private static final String FILTER = "//div[@class='group' and contains(.,'%s')]//a[contains(.,'%s')]";
 	private static final String FILTER_LINKS = "//div[@class='group' and contains(.,'%s')]//a";
@@ -44,10 +42,10 @@ public class CatalogFilter extends CatalogPage {
 				isFailed = true;
 			}
 		}
-		BaseHelper.generateResult(isFailed);
+		generateResult(isFailed);
 	}
 
-	public void verifyProductsInPriceRange(int minPrice, int maxPrice) {
+	public void verifyProductsIsInPriceRange(int minPrice, int maxPrice) {
 		boolean isFailed = false;
 		for (WebElement catalogItem : catalogItems) {
 			String productPriceText = catalogItem.findElement(catalogItemPrice).getText();
@@ -61,7 +59,7 @@ public class CatalogFilter extends CatalogPage {
 				isFailed = true;
 			}
 		}
-		BaseHelper.generateResult(isFailed);
+		generateResult(isFailed);
 	}
 
 	public Set<String> getFilterNames(String filterCategory) {

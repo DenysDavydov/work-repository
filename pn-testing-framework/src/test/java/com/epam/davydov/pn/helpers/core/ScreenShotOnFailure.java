@@ -19,9 +19,17 @@ import com.epam.davydov.pn.config.WebDriverFactory;
 
 public class ScreenShotOnFailure extends TestListenerAdapter {
 	private static final String HIPERLINK_IMAGE = "<a href=\"%s\"><img src=\"%<s\" width=200 height=150></a><br>";
+	private static final String EXCLUDED_METHOD = "testProductHasSameDescription";
 
 	@Override
 	public void onTestFailure(ITestResult tr) {
+		log("Excluded method: %s", EXCLUDED_METHOD);
+		if (!tr.getName().equals(EXCLUDED_METHOD)) {
+			takeScreenshot();
+		}
+	}
+
+	public static void takeScreenshot() {
 		WebDriver driver = WebDriverFactory.getDriver();
 		File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		DateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy__hh_mm_ssaa");

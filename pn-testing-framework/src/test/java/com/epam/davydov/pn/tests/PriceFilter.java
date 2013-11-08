@@ -20,6 +20,6 @@ public class PriceFilter extends TestBase {
 			washersFilter.toggleFilter(maxFilterName, String.valueOf(maxFilterValue));
 		}		
 		
-		washersFilter.verifyProductsInPriceRange(minFilterValue, maxFilterValue);
+		washersFilter.verifyProductsIsInPriceRange(minFilterValue, maxFilterValue);
 	}
 }

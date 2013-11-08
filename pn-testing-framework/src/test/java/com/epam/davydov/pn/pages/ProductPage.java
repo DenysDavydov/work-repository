@@ -1,12 +1,13 @@
 package com.epam.davydov.pn.pages;
 
+import static com.epam.davydov.pn.helpers.core.BaseHelper.log;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Reporter;
 
 import com.epam.davydov.pn.helpers.dataproviders.Product;
 
@@ -38,7 +39,7 @@ public class ProductPage extends Page {
 	}
 
 	public List<String> getProductDescription() {
-		Reporter.log("Get product's description from the product page<br>");
+		log("Get product's description from the product page<br>");
 		List<String> shortDescription = new ArrayList<>();
 
 		shortDescription.add(getCurrentProductName().toLowerCase());

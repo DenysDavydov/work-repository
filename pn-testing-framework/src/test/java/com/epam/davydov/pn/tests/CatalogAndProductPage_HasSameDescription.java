@@ -4,17 +4,17 @@ import java.util.List;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
 import com.epam.davydov.pn.config.PageFactory;
 import com.epam.davydov.pn.helpers.core.BaseHelper;
+import com.epam.davydov.pn.helpers.core.CustomSoftAssert;
 import com.epam.davydov.pn.helpers.dataproviders.BaseDataProvider;
 import com.epam.davydov.pn.pages.CatalogPage;
 import com.epam.davydov.pn.pages.PricePage;
 import com.epam.davydov.pn.pages.ProductPage;
 
 public class CatalogAndProductPage_HasSameDescription extends TestBase {
-	private SoftAssert softAssert;
+	private CustomSoftAssert softAssert;
 
 	@Test(dataProvider = "baseDataProvider", dataProviderClass = BaseDataProvider.class)
 	public void testProductHasSameDescription(String category, int productNumber) {
@@ -39,6 +39,6 @@ public class CatalogAndProductPage_HasSameDescription extends TestBase {
 
 	@BeforeMethod
 	public void beforeMethod() {
-		softAssert = new SoftAssert();
+		softAssert = new CustomSoftAssert();
 	}
 }

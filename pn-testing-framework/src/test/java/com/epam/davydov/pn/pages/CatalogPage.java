@@ -1,6 +1,5 @@
 package com.epam.davydov.pn.pages;
 
-import static java.lang.String.format;
 import static com.epam.davydov.pn.helpers.core.BaseHelper.log;
 
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import java.util.TreeSet;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Reporter;
 
 import com.epam.davydov.pn.config.PageFactory;
 import com.epam.davydov.pn.helpers.dataproviders.Product;
