@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="PN Testing Task">
+	<listeners>
+		<listener class-name="com.epam.davydov.pn.helpers.core.ScreenShotOnFailure" />
+	</listeners>	
+	<test name="Products Comparison">
+		<classes>
+			<class name="com.epam.davydov.pn.tests.ProductsComparison" />
+		</classes>
+	</test>	
+</suite>

@@ -13,7 +13,7 @@ import com.epam.davydov.pn.pages.CatalogPage;
 import com.epam.davydov.pn.pages.PricePage;
 import com.epam.davydov.pn.pages.ProductPage;
 
-public class CatalogAndProductPage_HasSameDescription extends TestBase {
+public class DifferentPlaceProductDescription extends TestBase {
 	private CustomSoftAssert softAssert;
 
 	@Test(dataProvider = "baseDataProvider", dataProviderClass = BaseDataProvider.class)
