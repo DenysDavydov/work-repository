@@ -19,12 +19,11 @@ import com.epam.davydov.pn.config.WebDriverFactory;
 
 public class ScreenShotOnFailure extends TestListenerAdapter {
 	private static final String HIPERLINK_IMAGE = "<a href=\"%s\"><img src=\"%<s\" width=200 height=150></a><br>";
-	private static final String EXCLUDED_METHOD = "testProductHasSameDescription";
+	private static final String[] EXCLUDED_METHODS = { "testProductHasSameDescription" };
 
 	@Override
 	public void onTestFailure(ITestResult tr) {
-		log("Excluded method: %s", EXCLUDED_METHOD);
-		if (!tr.getName().equals(EXCLUDED_METHOD)) {
+		if (!arrayContains(EXCLUDED_METHODS, tr.getName())) {
 			takeScreenshot();
 		}
 	}
@@ -48,5 +47,13 @@ public class ScreenShotOnFailure extends TestListenerAdapter {
 			log("IO exception has occured");
 		}
 		log(HIPERLINK_IMAGE, relativeFileName);
+	}
+
+	private boolean arrayContains(Object[] array, Object o) {
+		for (Object aO : array) {
+			if (aO.equals(o))
+				return true;
+		}
+		return false;
 	}
 }

@@ -44,10 +44,11 @@ public class BaseHelper {
 	public static boolean isParentContainsChildItems(List<String> parent, List<String> child) {
 		boolean result = true;
 		String parentText = parent.toString();
-		for (String row : child) {
-			if (!parentText.contains(row)) {
-				String message = format("\"%s\" product page doesn't contains \"%s\" property", parent.get(0), row);
-				Reporter.log(format(RED_FONT, message));
+		for (String childItem : child) {
+			if (!parentText.contains(childItem)) {
+				String message = format("\"%s\" product page doesn't contains \"%s\" property", parent.get(0),
+						childItem);
+				log(format(RED_FONT, message));
 				result = false;
 			}
 		}

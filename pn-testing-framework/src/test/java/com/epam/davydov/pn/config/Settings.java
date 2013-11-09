@@ -32,7 +32,7 @@ public class Settings {
 	public static String getIEDriverPath() {
 		return properties.getProperty("iedriver.path");
 	}
-	
+
 	public static String getOperaBinaryPath() {
 		return properties.getProperty("opera.binary.path");
 	}
@@ -40,9 +40,10 @@ public class Settings {
 	public static int getAjaxFactoryWaitTimeout() {
 		return Integer.parseInt(properties.getProperty("ajax.factory.wait.timeout"));
 	}
-	
-	public static String getHomePageURL(){
-		return properties.getProperty("home.page.url");
+
+	public static String getHomePageURL() {
+		String enviroment = System.getProperty("enviroment");
+		return properties.getProperty(enviroment + ".home.page.url");
 	}
 
 	public static String getTestDataDir() {
@@ -50,6 +51,6 @@ public class Settings {
 	}
 
 	public static String getBrowserType() {
-		return properties.getProperty("browser.type");
+		return System.getProperty("target.browser");
 	}
 }

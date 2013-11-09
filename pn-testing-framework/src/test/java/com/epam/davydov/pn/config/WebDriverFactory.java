@@ -1,12 +1,11 @@
 package com.epam.davydov.pn.config;
 
-import static org.openqa.selenium.remote.BrowserType.*;
 import static com.epam.davydov.pn.helpers.core.BaseHelper.log;
+import static org.openqa.selenium.remote.BrowserType.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -40,36 +39,33 @@ public class WebDriverFactory {
 		restartFrequency = newRestartFrequency;
 	}
 
-	public static WebDriver getDriver(String hub, Capabilities capabilities) {
+	public static WebDriver getDriver(String hub) {
+		String browserType = Settings.getBrowserType();
 		count++;
 		if (driver == null) {
-			return newWebDriver(hub, capabilities);
+			return newWebDriver(hub, browserType);
 		}
-		String newKey = capabilities.toString() + ":" + hub;
+		String newKey = browserType + ":" + hub;
 		if (!newKey.equals(key)) {
 			dismissDriver();
 			key = newKey;
-			return newWebDriver(hub, capabilities);
+			return newWebDriver(hub, browserType);
 		}
 		try {
 			driver.getCurrentUrl();
 		} catch (Throwable t) {
 			t.printStackTrace();
-			return newWebDriver(hub, capabilities);
+			return newWebDriver(hub, browserType);
 		}
 		if (count >= restartFrequency) {
 			dismissDriver();
-			return newWebDriver(hub, capabilities);
+			return newWebDriver(hub, browserType);
 		}
 		return driver;
 	}
 
-	public static WebDriver getDriver(Capabilities capabilities) {
-		return getDriver(defaultHub, capabilities);
-	}
-
 	public static WebDriver getDriver() {
-		return driver != null ? driver : getDriver(defaultHub, DesiredCapabilities.firefox());
+		return getDriver(defaultHub);
 	}
 
 	public static void dismissDriver() {
@@ -83,15 +79,17 @@ public class WebDriverFactory {
 		}
 	}
 
-	private static WebDriver newWebDriver(String hub, Capabilities capabilities) {
-		driver = (hub == null) ? newLocalDriver(capabilities) : newRemoteDriver(hub, capabilities);
-		key = capabilities.toString() + ":" + hub;
+	private static WebDriver newWebDriver(String hub, String browserType) {
+		driver = (hub == null) ? newLocalDriver(browserType) : newRemoteDriver(hub, browserType);
+		key = browserType + ":" + hub;
 		count = 0;
 		return driver;
 	}
 
-	private static WebDriver newRemoteDriver(String hub, Capabilities capabilities) {
+	private static WebDriver newRemoteDriver(String hub, String browserType) {
 		try {
+			DesiredCapabilities capabilities = new DesiredCapabilities();
+			capabilities.setBrowserName(browserType);
 			return new RemoteWebDriver(new URL(hub), capabilities);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -99,23 +97,22 @@ public class WebDriverFactory {
 		}
 	}
 
-	private static WebDriver newLocalDriver(Capabilities capabilities) {
+	private static WebDriver newLocalDriver(String browserType) {
 		try {
-			String browserName = capabilities.getBrowserName();
-			log("Init \"%s\" web driver<br>", browserName);
-			switch (browserName) {
+			log("Init \"%s\" web driver<br>", browserType);
+			switch (browserType) {
 			case IE:
-				driver = newIEDriver(capabilities);
+				driver = newIEDriver();
 				break;
 			case CHROME:
-				driver = newCromeDriver(capabilities);
+				driver = newCromeDriver();
 				break;
 			case OPERA:
-				driver = newOperaDriver(capabilities);
+				driver = newOperaDriver();
 				break;
 			case FIREFOX:
 			default:
-				driver = newFireFoxDriver(capabilities);
+				driver = newFireFoxDriver();
 			}
 			driver.manage().window().maximize();
 		} catch (Exception e) {
@@ -124,25 +121,26 @@ public class WebDriverFactory {
 		return driver;
 	}
 
-	private static WebDriver newFireFoxDriver(Capabilities capabilities) {
-		((DesiredCapabilities) capabilities).setCapability(FirefoxDriver.PROFILE, Settings.getFFProfilePath());
+	private static WebDriver newFireFoxDriver() {
+		DesiredCapabilities capabilities = new DesiredCapabilities();
+		capabilities.setCapability(FirefoxDriver.PROFILE, Settings.getFFProfilePath());
 		return new FirefoxDriver(capabilities);
 	}
 
-	private static WebDriver newOperaDriver(Capabilities capabilities) {
+	private static WebDriver newOperaDriver() {
 		System.setProperty("opera.binary", Settings.getOperaBinaryPath());
-		return new OperaDriver(capabilities);
+		return new OperaDriver();
 	}
 
-	private static WebDriver newCromeDriver(Capabilities capabilities) {
+	private static WebDriver newCromeDriver() {
 		System.setProperty("webdriver.chrome.driver", Settings.getChromeDriverPath());
 		return new ChromeDriver();
 	}
 
-	private static WebDriver newIEDriver(Capabilities capabilities) {
+	private static WebDriver newIEDriver() {
 		System.setProperty("webdriver.ie.driver", Settings.getIEDriverPath());
-		((DesiredCapabilities) capabilities).setCapability(
-				InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+		DesiredCapabilities capabilities = new DesiredCapabilities();
+		capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 		return new InternetExplorerDriver(capabilities);
 	}
 }
