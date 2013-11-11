@@ -2,6 +2,7 @@ package com.epam.davydov.pn.pages;
 
 import static com.epam.davydov.pn.helpers.core.BaseHelper.*;
 import static java.lang.String.format;
+import static org.testng.Assert.assertFalse;
 
 import com.epam.davydov.pn.helpers.core.BaseHelper;
 import com.epam.davydov.pn.helpers.dataproviders.Product;
@@ -38,6 +39,7 @@ public class ComparisonPage extends Page {
 	}
 
 	public void verifyDifferentPropertiesHighlighting() {
+		log(BLUE_FONT, "Verify items with different properties is highlighed");
 		boolean isFailed = false;
 		for (WebElement row : propertyRows) {
 			List<String> rowContent = getRowContent(row);
@@ -52,7 +54,7 @@ public class ComparisonPage extends Page {
 				}
 			}
 		}
-		BaseHelper.generateResult(isFailed);
+		assertFalse(isFailed);
 	}
 
 	private List<String> getRowContent(WebElement row) {

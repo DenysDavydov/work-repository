@@ -1,0 +1,37 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="PN Testing Task">
+	<listeners>
+		<listener class-name="com.epam.davydov.pn.helpers.core.ScreenShotOnFailure" />
+	</listeners>
+	<test name="Products Sorting">
+		<classes>
+			<class name="com.epam.davydov.pn.tests.ProductsSorting" />
+			<class name="com.epam.davydov.pn.tests.ProductsComparison" />
+		</classes>
+	</test>
+<!-- 	<test name="Products Comparison"> -->
+<!-- 		<classes> -->
+<!-- 			<class name="com.epam.davydov.pn.tests.ProductsComparison" /> -->
+<!-- 		</classes> -->
+<!-- 	</test> -->
+	<test name="Filter Functioning" enabled="false">
+		<classes>
+			<class name="com.epam.davydov.pn.tests.FilterFunctioning" />
+		</classes>
+	</test>
+	<test name="Price Filter" enabled="false">
+		<classes>
+			<class name="com.epam.davydov.pn.tests.PriceFilter" />
+		</classes>
+	</test>
+	<test name="Manufacturer Filter" enabled="false">
+		<classes>
+			<class name="com.epam.davydov.pn.tests.ManufacturerFilter" />
+		</classes>
+	</test>
+	<test name="Different Place Product Description" enabled="false">
+		<classes>
+			<class name="com.epam.davydov.pn.tests.DifferentPlaceProductDescription" />
+		</classes>
+	</test>
+</suite>

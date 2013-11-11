@@ -2,6 +2,7 @@ package com.epam.davydov.pn.pages;
 
 import static com.epam.davydov.pn.helpers.core.BaseHelper.*;
 import static java.lang.String.format;
+import static org.testng.Assert.assertFalse;
 
 import java.util.List;
 import java.util.Set;
@@ -33,19 +34,23 @@ public class CatalogFilter extends CatalogPage {
 	}
 
 	public void verifyProductsMatchesFilter(String property) {
+		String message = format("Verify all products matches \"%s\" filter", property);
+		log(BLUE_FONT, message);
 		boolean isFailed = false;
 		for (WebElement catalogItem : catalogItems) {
 			if (!catalogItem.getText().contains(property)) {
 				String productName = catalogItem.findElement(catalogItemName).getText();
-				String message = format("Product \"%s\" doesn't contains \"%s\" property", productName, property);
-				log(RED_FONT, message);
+				String errorMessage = format("Product \"%s\" doesn't contains \"%s\" property", productName, property);
+				log(RED_FONT, errorMessage);
 				isFailed = true;
 			}
 		}
-		generateResult(isFailed);
+		assertFalse(isFailed);
 	}
 
-	public void verifyProductsIsInPriceRange(int minPrice, int maxPrice) {
+	public void verifyProductsMatchesPriceRange(int minPrice, int maxPrice) {
+		String message = format("Verify products are in %s - %s price range", minPrice, maxPrice);
+		log(BLUE_FONT, message);
 		boolean isFailed = false;
 		for (WebElement catalogItem : catalogItems) {
 			String productPriceText = catalogItem.findElement(catalogItemPrice).getText();
@@ -53,13 +58,13 @@ public class CatalogFilter extends CatalogPage {
 
 			if (productPrice < minPrice || productPrice > maxPrice) {
 				String productName = catalogItem.findElement(catalogItemName).getText();
-				String message = format("Product \"%s\" price (\"%s\") not in range \"%s\" - \"%s\"<br>",
+				String errorMessage = format("Product \"%s\" price (\"%s\") not in range \"%s\" - \"%s\"<br>",
 						productName, productPrice, minPrice, maxPrice);
-				log(RED_FONT, message);
+				log(RED_FONT, errorMessage);
 				isFailed = true;
 			}
 		}
-		generateResult(isFailed);
+		assertFalse(isFailed);
 	}
 
 	public Set<String> getFilterNames(String filterCategory) {

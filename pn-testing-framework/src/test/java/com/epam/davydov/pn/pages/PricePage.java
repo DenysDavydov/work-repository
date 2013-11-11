@@ -10,36 +10,44 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import com.epam.davydov.pn.helpers.core.CustomSoftAssert;
+
 public class PricePage extends HomePage {
+	private boolean isFailed;
 	private By descriptionLink = By.cssSelector(".description-link");
 
 	@FindBy(css = ".n")
 	private List<WebElement> searchResultRows;
 
-	public boolean allDescriptionLinksLeadsToProductPage(String productPageURL) {
-		boolean result = true;
-
-		if (searchResultRows.isEmpty())
-			return false;
-
+	public void verifyDescriptionLinks(String productPageURL, CustomSoftAssert sa) {
+		String message = format("Verify search result description links matches \"%s\"", productPageURL);
+		log(BLUE_FONT, message);
+		if (searchResultRows.isEmpty()) {
+			sa.fail();
+			return;
+		}
 		for (WebElement row : searchResultRows) {
 			try {
 				String descriptionURL = row.findElement(descriptionLink).getAttribute("href");
 				if (!descriptionURL.equals(productPageURL)) {
-					String rowText = row.getText();
-					String priceItemName = rowText.substring(0, rowText.indexOf("описание")).trim();
-					String message = format("\"%s\" doesn't lead to \"%s\"", priceItemName, productPageURL);
-					log(RED_FONT, message);
-					result = false;
+					String errorMessage = format("\"%s\" doesn't lead to \"%s\"", getPriceItemName(row), productPageURL);
+					generateResult(errorMessage);
 				}
 			} catch (NoSuchElementException e) {
-				String rowText = row.getText();
-				String priceItemName = rowText.substring(0, rowText.indexOf("описание")).trim();
-				String message = format("\"%s\" doesn't contains description link", priceItemName);
-				log(RED_FONT, message);
-				result = false;
+				String errorMessage = format("\"%s\" doesn't contains description link", getPriceItemName(row));
+				generateResult(errorMessage);
 			}
 		}
-		return result;
+		sa.assertFalse(isFailed, "Links assert");
+	}
+
+	private String getPriceItemName(WebElement row) {
+		String rowText = row.getText();
+		return rowText.substring(0, rowText.indexOf("описание")).trim();
+	}
+
+	private void generateResult(String message) {
+		log(RED_FONT, message);
+		isFailed = true;
 	}
 }

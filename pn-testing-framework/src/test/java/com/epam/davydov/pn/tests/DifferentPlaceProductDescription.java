@@ -24,8 +24,7 @@ public class DifferentPlaceProductDescription extends TestBase {
 		ProductPage productPage = catalog.navigateToProductPage(productNumber);
 		List<String> productDescription = productPage.getProductDescription();
 
-		softAssert.assertTrue(BaseHelper.isParentContainsChildItems(productDescription, catalogItemDescription),
-				"Description assert");
+		BaseHelper.verifyParentContainsChildItems(productDescription, catalogItemDescription, softAssert);
 
 		String productPageURL = productPage.getCurrentURL();
 		String productName = productPage.getCurrentProductName();
@@ -33,7 +32,7 @@ public class DifferentPlaceProductDescription extends TestBase {
 		navigateBack(CatalogPage.class).navigateToPricePage().search(productName);
 		PricePage priceSearchResult = PageFactory.getPage(PricePage.class);
 
-		softAssert.assertTrue(priceSearchResult.allDescriptionLinksLeadsToProductPage(productPageURL), "Links assert");
+		priceSearchResult.verifyDescriptionLinks(productPageURL, softAssert);
 		softAssert.assertAll();
 	}
 

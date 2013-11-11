@@ -38,7 +38,7 @@ public class ProductsComparison extends TestBase {
 		assertEquals(realProducts, comparingProducts);
 	}
 
-	@Test(priority = 1)
+	@Test(dependsOnMethods = { "testProductsComparison" })
 	public void testDifferentPropertiesHighlighting() {
 		comparisonPage.verifyDifferentPropertiesHighlighting();
 	}
