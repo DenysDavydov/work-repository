@@ -1,7 +1,10 @@
 package com.epam.davydov.pn.config;
 
 import static com.epam.davydov.pn.helpers.core.BaseHelper.log;
-import static org.openqa.selenium.remote.BrowserType.*;
+import static org.openqa.selenium.remote.BrowserType.CHROME;
+import static org.openqa.selenium.remote.BrowserType.FIREFOX;
+import static org.openqa.selenium.remote.BrowserType.IE;
+import static org.openqa.selenium.remote.BrowserType.OPERA;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -114,11 +117,17 @@ public class WebDriverFactory {
 			default:
 				driver = newFireFoxDriver();
 			}
-			driver.manage().window().maximize();
+			maximixeBrowserWindow(browserType);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		return driver;
+	}
+
+	private static void maximixeBrowserWindow(String browserType) {
+		if (!browserType.equals(OPERA)) {
+			driver.manage().window().maximize();
+		} 
 	}
 
 	private static WebDriver newFireFoxDriver() {

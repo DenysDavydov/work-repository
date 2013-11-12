@@ -1,5 +1,7 @@
 package com.epam.davydov.pn.tests;
 
+import static com.epam.davydov.pn.helpers.core.BaseHelper.BLUE_FONT;
+import static com.epam.davydov.pn.helpers.core.BaseHelper.log;
 import static org.testng.Assert.assertEquals;
 
 import java.util.Set;
@@ -25,6 +27,7 @@ public class ManufacturerFilter extends TestBase {
 		CatalogPage bakeryCatalog = PageFactory.getPage(CatalogPage.class);
 		catalogManufacturers = bakeryCatalog.getAllCatalogManufacturers();
 		
+		log(BLUE_FONT, "Verify content of the manufacturer filter");
 		assertEquals(filterManufacturers, catalogManufacturers);
 	}
 }

@@ -1,5 +1,7 @@
 package com.epam.davydov.pn.tests;
 
+import static com.epam.davydov.pn.helpers.core.BaseHelper.BLUE_FONT;
+import static com.epam.davydov.pn.helpers.core.BaseHelper.log;
 import static org.testng.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -34,7 +36,8 @@ public class ProductsComparison extends TestBase {
 		for (int i = 0; i < productsNumbers.length; i++) {
 			comparingProducts.add(comparisonPage.getComparingProduct(i + 2));
 		}
-
+		
+		log(BLUE_FONT, "Verify products from product page are equals to products from comparison page");
 		assertEquals(realProducts, comparingProducts);
 	}
 

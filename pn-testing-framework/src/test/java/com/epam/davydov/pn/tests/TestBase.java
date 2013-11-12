@@ -4,7 +4,7 @@ import static com.epam.davydov.pn.helpers.core.BaseHelper.log;
 import static java.lang.String.format;
 
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeClass;
 
 import com.epam.davydov.pn.config.PageFactory;
 import com.epam.davydov.pn.config.Settings;
@@ -15,7 +15,7 @@ import com.epam.davydov.pn.pages.Page;
 public class TestBase {
 	protected WebDriver driver;
 
-	@BeforeSuite
+	@BeforeClass
 	protected void setUp() {
 		driver = WebDriverFactory.getDriver();
 	}
