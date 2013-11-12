@@ -22,15 +22,14 @@ public class CatalogFilter extends CatalogPage {
 	public void toggleFilter(String filterCategory, String filterName) {
 		log("Toggle \"%s\" filter from \"%s\" category<br>", filterName, filterCategory);
 
-		String selector = format(FILTER, filterCategory, filterName);
-		WebElement filterButton = getElement(By.xpath(selector));
+		By _filterButton = By.xpath(format(FILTER, filterCategory, filterName));
+		WebElement filterButton = getElement(_filterButton);
 
 		String filterButtonCSSClassName = filterButton.getAttribute("class");
 
-		if (filterButtonCSSClassName.equals("selected active")) {
-			return;
+		if (!filterButtonCSSClassName.equals("selected active")) {
+			filterButton.click();
 		}
-		filterButton.click();
 	}
 
 	public void verifyProductsMatchesFilter(String property) {
@@ -40,7 +39,8 @@ public class CatalogFilter extends CatalogPage {
 		for (WebElement catalogItem : catalogItems) {
 			if (!catalogItem.getText().contains(property)) {
 				String productName = catalogItem.findElement(catalogItemName).getText();
-				String errorMessage = format("Product \"%s\" doesn't contains \"%s\" property", productName, property);
+				String errorMessage = format("Product \"%s\" doesn't contains \"%s\" property", productName,
+						property);
 				log(RED_FONT, errorMessage);
 				isFailed = true;
 			}
@@ -73,13 +73,12 @@ public class CatalogFilter extends CatalogPage {
 
 		showAllButton.click();
 
-		By filterLinks = By.xpath(String.format(FILTER_LINKS, filterCategory));
+		By filterLinks = By.xpath(format(FILTER_LINKS, filterCategory));
 		List<WebElement> filterLinksList = getElements(filterLinks);
 
 		for (WebElement filterLink : filterLinksList) {
-			if (filterLink.getAttribute("href").startsWith("javascript"))
-				continue;
-			filterNames.add(filterLink.getText().toLowerCase());
+			if (!filterLink.getAttribute("href").startsWith("javascript"))
+				filterNames.add(filterLink.getText().toLowerCase());
 		}
 		return filterNames;
 	}
